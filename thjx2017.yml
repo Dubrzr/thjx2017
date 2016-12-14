@@ -36,6 +36,15 @@ enum:
       - [lack_resources, "You need more resources to perform this action."]
       - [already_called, "You cannot call this action multiple times."]
 
+struct:
+  -
+    str_name: position
+    str_summary: "Position on the NOSE grid."
+    str_tuple: yes
+    str_field:
+      - [x, int, "x coordinate (row index)"]
+      - [y, int, "y coordinate (column index)"]
+
 function:
 
 # Actions
@@ -112,6 +121,26 @@ function:
       - []
 
 # Observer for specific phases
+
+  -
+    fct_name: last_played_square
+    fct_summary: "Position of the last played square in the NOSE game."
+    fct_ret_type: position
+    fct_arg:
+      - []
+  -
+    fct_name: nb_remaining_squares
+    fct_summary: "Number of remaining squares in the NOSE game."
+    fct_ret_type: int
+    fct_arg:
+      - []
+  -
+    fct_name: min_nb_of_squares_to_take
+    fct_summary: "Minimum number of squares to take.
+                  Returns -1 if the MUR game of the current turn is not over."
+    fct_ret_type: int
+    fct_arg:
+      - []
 
 # TODO
 
