@@ -11,7 +11,7 @@ constant:
 enum:
 
   -
-    enum_name: position
+    enum_name: mur_position
     enum_summary: "Position a player can defend during a phase"
     enum_field:
       - [pos_n, "N"]
@@ -38,7 +38,7 @@ enum:
 
 struct:
   -
-    str_name: position
+    str_name: nose_position
     str_summary: "Position on the NOSE grid."
     str_tuple: yes
     str_field:
@@ -55,7 +55,8 @@ function:
     fct_ret_type: action_error
     fct_action: yes
     fct_arg:
-      - [position, position, "Position that should be defended or attacked."]
+      - [position, mur_position, "Position that should be defended or
+                                  attacked."]
       - [amount, int, "Amount of stock used for attacking / defending."]
 
   -
@@ -103,8 +104,10 @@ function:
     fct_summary: "Amount of stock lost considering both players' moves."
     fct_ret_type: int
     fct_arg:
-      - [your_position, position, "The position you decided to attack or defend."]
-      - [their_position, position, "The position your opponent decided to attack or defend."]
+      - [your_position, mur_position, "The position you decided to attack or
+                                       defend."]
+      - [their_position, mur_position, "The position your opponent decided to
+                                        attack or defend."]
       - [your_amount, int, "The amount of stock you decided to use."]
       - [their_amount, int, "The amount of stock your opponent decided to use."]
   -
@@ -125,7 +128,7 @@ function:
   -
     fct_name: last_played_square
     fct_summary: "Position of the last played square in the NOSE game."
-    fct_ret_type: position
+    fct_ret_type: nose_position
     fct_arg:
       - []
   -
