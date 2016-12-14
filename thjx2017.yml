@@ -2,14 +2,12 @@ name: thjx2017
 rules_type: turnbased
 
 constant:
-
   -
     cst_name: MUR_INITIAL_STOCK
     cst_val: 1024
     cst_comment: Initial stock given to each player at the start of a MUR game.
 
 enum:
-
   -
     enum_name: mur_position
     enum_summary: "Position a player can defend during a phase"
@@ -18,14 +16,12 @@ enum:
       - [pos_o, "O"]
       - [pos_s, "S"]
       - [pos_e, "E"]
-
   -
     enum_name: mur_role
     enum_summary: "Role played during a MUR game (attacker or defender)"
     enum_field:
       - [attacker, "Attacker"]
       - [defender, "Defender"]
-
   -
     enum_name: action_error
     enum_summary: "Errors returned by the actions"
@@ -58,7 +54,6 @@ function:
       - [position, mur_position, "Position that should be defended or
                                   attacked."]
       - [amount, int, "Amount of stock used for attacking / defending."]
-
   -
     fct_name: play_nose
     fct_summary: Remove squares with position >= to the given square.
@@ -90,17 +85,19 @@ function:
 # Observers for the whole game
 
   -
-    fct_name: my_mur_role
-    fct_summary: "Your current role in the MUR game."
+    fct_name: mur_role
+    fct_summary: "MUR role (attacker/defender) of the specified player."
     fct_ret_type: mur_role
-    fct_arg: []
+    fct_arg:
+      - [player, int, "Player identifier."]
   -
-    fct_name: opponent_mur_role
-    fct_summary: "Your opponent's current role in the MUR game."
-    fct_ret_type: mur_role
-    fct_arg: []
+    fct_name: mur_remaining_stock
+    fct_summary: "Current amount of stock remaining for the specified player."
+    fct_ret_type: int
+    fct_arg:
+      - [player, int, "Player identifier."]
   -
-    fct_name: stock_loss
+    fct_name: mur_compute_stock_loss
     fct_summary: "Amount of stock lost considering both players' moves."
     fct_ret_type: int
     fct_arg:
@@ -110,35 +107,35 @@ function:
                                         attack or defend."]
       - [your_amount, int, "The amount of stock you decided to use."]
       - [their_amount, int, "The amount of stock your opponent decided to use."]
-  -
-    fct_name: my_stock
-    fct_summary: "Current amount of stock you possess."
-    fct_ret_type: int
-    fct_arg:
-      - []
-  -
-    fct_name: opponent_stock
-    fct_summary: "Current amount of stock your opponent possesses."
-    fct_ret_type: int
-    fct_arg:
-      - []
 
 # Observer for specific phases
 
   -
-    fct_name: last_played_square
+    fct_name: mur_last_played_position
+    fct_summary: "Last MUR position played by the specified player."
+    fct_ret_type: mur_position
+    fct_arg:
+      - [player, int, "Player identifier."]
+  -
+    fct_name: mur_last_played_amount
+    fct_summary: "Last stock amount used by the specified player."
+    fct_ret_type: int
+    fct_arg:
+      - [player, int, "Player identifier."]
+  -
+    fct_name: nose_last_played_square
     fct_summary: "Position of the last played square in the NOSE game."
     fct_ret_type: nose_position
     fct_arg:
       - []
   -
-    fct_name: nb_remaining_squares
+    fct_name: nose_remaining_squares
     fct_summary: "Number of remaining squares in the NOSE game."
     fct_ret_type: int
     fct_arg:
       - []
   -
-    fct_name: min_nb_of_squares_to_take
+    fct_name: nose_squares_to_take
     fct_summary: "Minimum number of squares to take.
                   Returns -1 if the MUR game of the current turn is not over."
     fct_ret_type: int
@@ -160,6 +157,11 @@ user_function:
                   If you never call the ``play_mur`` function, you will defend
                   or attack a random position with a random portion of your
                   remaining stock."
+    fct_ret_type: void
+    fct_arg: []
+  -
+    fct_name: mur_end
+    fct_summary: "Function called when a MUR game is over."
     fct_ret_type: void
     fct_arg: []
   -
