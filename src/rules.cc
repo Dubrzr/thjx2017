@@ -70,12 +70,12 @@ void Rules::player_turn()
 
 void Rules::at_player_start(rules::ClientMessenger_sptr msgr)
 {
-  // FIXME
+  sandbox_.execute(cham_game_init_);
 }
 
 void Rules::at_player_end(rules::ClientMessenger_sptr)
 {
-  // FIXME
+  sandbox_.execute(champ_game_end_);
 }
 
 void Rules::start_of_round()
