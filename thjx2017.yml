@@ -126,21 +126,18 @@ function:
     fct_name: nose_last_played_square
     fct_summary: "Position of the last played square in the NOSE game."
     fct_ret_type: nose_position
-    fct_arg:
-      - []
+    fct_arg: []
   -
     fct_name: nose_remaining_squares
     fct_summary: "Number of remaining squares in the NOSE game."
     fct_ret_type: int
-    fct_arg:
-      - []
+    fct_arg: []
   -
     fct_name: nose_squares_to_take
     fct_summary: "Minimum number of squares to take.
                   Returns -1 if the MUR game of the current turn is not over."
     fct_ret_type: int
-    fct_arg:
-      - []
+    fct_arg: []
 
 # TODO
 
