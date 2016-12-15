@@ -73,6 +73,7 @@ std::string convert_to_string(mur_position in){
     case POS_O: return "\"pos_o\"";
     case POS_S: return "\"pos_s\"";
     case POS_E: return "\"pos_e\"";
+    case POS_INVALID: return "\"pos_invalid\"";
   }
   return "bad value";
 }
@@ -235,6 +236,7 @@ std::ostream& operator<<(std::ostream& os, mur_position v)
   case POS_O: os << "POS_O"; break;
   case POS_S: os << "POS_S"; break;
   case POS_E: os << "POS_E"; break;
+  case POS_INVALID: os << "POS_INVALID"; break;
   }
   return os;
 }

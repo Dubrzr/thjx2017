@@ -22,6 +22,7 @@ typedef enum mur_position {
   POS_O, /* <- O */
   POS_S, /* <- S */
   POS_E, /* <- E */
+  POS_INVALID, /* <- Invalid position */
 } mur_position;
 
 

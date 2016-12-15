@@ -16,6 +16,7 @@ enum:
       - [pos_o, "O"]
       - [pos_s, "S"]
       - [pos_e, "E"]
+      - [pos_invalid, "Invalid position"]
   -
     enum_name: mur_role
     enum_summary: "Role played during a MUR game (attacker or defender)"
