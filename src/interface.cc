@@ -197,8 +197,8 @@ extern "C" mur_position api_mur_last_pos(int player) {
 }
 
 /// Last stock amount used by the specified player.
-extern "C" int api_mur_last_played_amount(int player) {
-  return api->mur_last_played_amount(player);
+extern "C" int api_mur_last_used_stock(int player) {
+  return api->mur_last_used_stock(player);
 }
 
 /// Position of the last played square in the NOSE game.

@@ -50,7 +50,7 @@ TEST_F(ActionTest, ActionMUR_resolve_looser) {
 
   EXPECT_EQ(static_cast<int>(PLAYER_1), st->resolve_mur());
   EXPECT_EQ(PLAYER_1, st->get_nose_player_id());
-  EXPECT_EQ(20, st->get_nose_min_value_to_be_played());
+  EXPECT_EQ(20, st->get_nose_squares_to_take());
 
   EXPECT_EQ(NOSE, get_game_phase());
 }

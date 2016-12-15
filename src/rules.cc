@@ -17,13 +17,14 @@ Rules::Rules(const rules::Options opt)
   register_actions();
 }
 
-void Rules::register_actions() {
-  api_->actions()->register_action(ID_ACTION_PLAY_MUR, []() -> rules::IAction* {
-    return new ActionPlayMur();
-  });
-  api_->actions()->register_action(
-      ID_ACTION_PLAY_NOSE,
-      []() -> rules::IAction* { return new ActionPlayNose(); });
+void Rules::register_actions()
+{
+  api_->actions()->register_action(ID_ACTION_PLAY_MUR,
+                                   []() -> rules::IAction*
+                                   { return new ActionPlayMur(); });
+  api_->actions()->register_action(ID_ACTION_PLAY_NOSE,
+                                   []() -> rules::IAction*
+                                   { return new ActionPlayNose(); });
 }
 
 rules::Actions* Rules::get_actions() { return api_->actions(); }
@@ -60,7 +61,8 @@ void Rules::player_turn() {
   }
 }
 
-void Rules::at_player_start(rules::ClientMessenger_sptr) {
+void Rules::at_player_start(rules::ClientMessenger_sptr)
+{
   sandbox_.execute(champ_game_init_);
 }
 

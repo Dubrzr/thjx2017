@@ -120,7 +120,7 @@ function:
     fct_arg:
       - [player, int, "Player identifier."]
   -
-    fct_name: mur_last_played_amount
+    fct_name: mur_last_used_stock
     fct_summary: "Last stock amount used by the specified player."
     fct_ret_type: int
     fct_arg:

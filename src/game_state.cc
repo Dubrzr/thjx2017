@@ -1,16 +1,16 @@
-// FIXME License notice
+#include <algorithm>
 
 #include "game_state.hh"
 #include "action_play_mur.hh"
 #include "action_play_nose.hh"
 #include "losses.hh"
-#include <algorithm>
+#include "constant.hh"
 
 // Player with smallest ID is alsways attacker
 // Apparently pn vs pm means pn will get the smallest ID
 GameState::GameState(rules::Players_sptr players)
     : rules::GameState(), players_(players), nose_player_(0),
-      min_value_to_be_taken(0), is_finished_(false) {
+      nose_squares_to_take_(0), is_finished_(false) {
   for (size_t i = 0; i < grid_.size(); ++i)
     std::fill(grid_[i].begin(), grid_[i].end(), true);
 
@@ -69,17 +69,24 @@ int GameState::get_mur_loser() {
 }
 
 int GameState::resolve_mur() {
-  compute_losses();
+  auto& at = player_info_.at(p_[ATTACKER]); // get attacker
+  auto& df = player_info_.at(p_[DEFENDER]); // get defender
 
-  auto& at = player_info_.at(p_[ATTACKER]);
-  auto& df = player_info_.at(p_[DEFENDER]);
+  // compute losses and update stocks
+  int at_loss, df_loss;
+  std::tie(at_loss, df_loss) = mur_compute_stock_loss(at.mur_pos, df.mur_pos,
+                                                      at.mur_used_stock,
+                                                      df.mur_used_stock);
 
-  auto at_mur = at.mur_stock;
-  auto df_mur = df.mur_stock;
+  std::cout << "Att: " << at_loss << std::endl;
+  std::cout << "Def: " << df_loss << std::endl;
+
+  at.mur_stock -= at_loss;
+  df.mur_stock -= df_loss;
 
   int ret = get_mur_loser();
 
-  if (at_mur <= 0 && df_mur <= 0) {
+  if (at.mur_stock <= 0 && df.mur_stock <= 0) {
     is_finished_ = true;
 
     auto points = squares_left(grid_);
@@ -93,7 +100,7 @@ int GameState::resolve_mur() {
     return ret;
 
   set_current_played_game(NOSE);
-  min_value_to_be_taken = player_info_.at(opponent(ret)).mur_stock;
+  nose_squares_to_take_ = player_info_.at(opponent(ret)).mur_stock;
   nose_player_ = ret;
 
   return ret;
@@ -108,28 +115,19 @@ void GameState::resolve_nose() {
   if ((pos_played.x | pos_played.y) == 0)
     is_finished_ = true;
 
-  auto score = *p.score - (min_value_to_be_taken - taken + 1);
+  auto score = *p.score - (nose_squares_to_take_ - taken + 1);
   *p.score = score;
 }
 
-void GameState::compute_losses() {
-  auto& at = player_info_.at(p_[ATTACKER]);
-  auto& df = player_info_.at(p_[DEFENDER]);
+std::pair<int, int> mur_compute_stock_loss(mur_position ap, mur_position dp,
+                                           int k, int l) {
+  kl_pair akl = attacker_losses[ap][dp];
+  kl_pair dkl = defender_losses[ap][dp];
 
-  auto& at_mur = at.mur_used_stock;
-  auto& df_mur = df.mur_used_stock;
+  auto al = k * akl.k + l * akl.l;
+  auto dl = k * dkl.k + l * dkl.l;
 
-  kl_pair akl = attacker_losses[at.mur_pos][df.mur_pos];
-  kl_pair dkl = defender_losses[at.mur_pos][df.mur_pos];
-
-  auto at_losses = at_mur * akl.k + df_mur * akl.l;
-  auto df_losses = at_mur * dkl.k + df_mur * dkl.l;
-
-  std::cout << "Att: " << at_losses << std::endl;
-  std::cout << "Def: " << df_losses << std::endl;
-
-  at.mur_stock -= at_losses;
-  df.mur_stock -= df_losses;
+  return std::make_pair<int, int>(al, dl);
 }
 
 void GameState::auto_mur(unsigned player_id) {

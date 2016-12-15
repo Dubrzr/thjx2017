@@ -41,6 +41,14 @@ struct player_info {
   int* score;
 };
 
+int squares_left(const nose_grid& g);
+int squares_taken(const nose_grid& g, const nose_position& p);
+void fill_grid(nose_grid& grid, const nose_position& p);
+std::pair<int, int> mur_compute_stock_loss(mur_position attacker_pos,
+                                           mur_position defender_pos,
+                                           int attacker_stock,
+                                           int defender_stock);
+
 class GameState : public rules::GameState {
 public:
   GameState(rules::Players_sptr players);
@@ -93,6 +101,14 @@ public:
   }
 
   // NOSE
+  nose_position get_nose_last_played_square(unsigned player) const {
+    return player_info_.at(player).nose_last_played_square;
+  }
+
+  nose_position get_nose_last_played_square() const {
+    return nose_last_played_square_;
+  }
+
   nose_position get_nose_played_square(unsigned player) const {
     return player_info_.at(player).nose_played_square;
   }
@@ -103,9 +119,11 @@ public:
 
   unsigned get_nose_player_id() const { return nose_player_; }
 
-  int get_nose_min_value_to_be_played() const { return min_value_to_be_taken; }
+  int get_nose_squares_to_take() const { return nose_squares_to_take_; }
 
   nose_grid get_nose_grid() const { return grid_; }
+
+  int get_remaining_square() { return squares_left(grid_); }
 
   // general
   // -------
@@ -134,13 +152,12 @@ private:
   std::unordered_map<unsigned, player_info> player_info_;
 
   // MUR specific
-  void compute_losses();
   int fill_squares();
   int get_mur_loser();
 
   // NOSE specific
   unsigned nose_player_;
-  int min_value_to_be_taken;
+  int nose_squares_to_take_;
 
   nose_position nose_last_played_square_;
   nose_grid grid_;
@@ -148,8 +165,5 @@ private:
   bool is_finished_;
 };
 
-int squares_left(const nose_grid& g);
-int squares_taken(const nose_grid& g, const nose_position& p);
-void fill_grid(nose_grid& grid, const nose_position& p);
 
 #endif /* !GAME_STATE_HH */

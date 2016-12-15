@@ -78,7 +78,7 @@ public:
   mur_position mur_last_pos(int player);
 
   /// Last stock amount used by the specified player.
-  int mur_last_played_amount(int player);
+  int mur_last_used_stock(int player);
 
   /// Position of the last played square in the NOSE game.
   nose_position nose_last_played_square();

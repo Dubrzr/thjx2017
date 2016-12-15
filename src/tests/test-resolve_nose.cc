@@ -36,7 +36,7 @@ TEST_F(ActionTest, ActionNose_end) {
   get_nose_player() = PLAYER_1;
 
   get_player_info(PLAYER_2).mur_stock = 1;
-  get_min_value() = min_val;
+  get_nose_squares_to_take() = min_val;
   *get_player_info(PLAYER_1).score = 0;
 
   auto& g = get_nose_grid();

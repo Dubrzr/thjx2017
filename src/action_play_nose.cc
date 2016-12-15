@@ -1,5 +1,6 @@
-#include "actions.hh"
 #include <algorithm>
+
+#include "actions.hh"
 
 int ActionPlayNose::check(const GameState* st) const {
 
@@ -17,7 +18,7 @@ int ActionPlayNose::check(const GameState* st) const {
     return INVALID_ARGUMENT;
 
   auto taken = squares_taken(st->get_nose_grid(), {x_, y_});
-  auto min = st->get_nose_min_value_to_be_played();
+  auto min = st->get_nose_squares_to_take();
 
   if (taken < min && ((x_ | y_) != 0))
     return NOT_ENOUGH_SQUARES_TAKEN;

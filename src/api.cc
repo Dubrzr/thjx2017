@@ -51,69 +51,64 @@ action_error Api::play_nose(int x, int y) {
 
 /// Your identifier (not always in {0, 1}).
 int Api::me() {
-  // TODO
-  abort();
+  return player_->id;
 }
 
 /// Your opponent's identifier (not always in {0, 1}).
 int Api::opponent() {
-  // TODO
-  abort();
+  return game_state()->opponent(me());
 }
 
 /// The current score of the specified player.
 int Api::score(int player) {
-  // TODO
-  abort();
+  return game_state()->get_score(player);
 }
 
 /// MUR role (attacker/defender) of the specified player.
 mur_role Api::mur_role_of_player(int player) {
-  // TODO
-  abort();
+  return game_state()->get_mur_role(player);
 }
 
 /// Current amount of stock remaining for the specified player.
 int Api::mur_stock(int player) {
-  // TODO
-  abort();
+  return game_state()->get_mur_stock(player);
 }
 
 /// Amount of stock lost considering both players' moves.
 int Api::mur_compute_stock_loss(mur_position your_position,
-                                mur_position their_position, int your_amount,
-                                int their_amount) {
-  // TODO
-  abort();
+                                mur_position their_position,
+                                int your_amount, int their_amount) {
+  mur_role your_role = mur_role_of_player(player_->id);
+  if (your_role == ATTACKER)
+    return mur_compute_stock_loss(your_position, their_position, your_amount,
+                                  their_amount);
+  else
+    return mur_compute_stock_loss(their_position, your_position, their_amount,
+                                  your_amount);
 }
 
 /// Last MUR position played by the specified player.
 mur_position Api::mur_last_pos(int player) {
-  // TODO
-  abort();
+  return game_state()->get_mur_last_position(player);
 }
 
 /// Last stock amount used by the specified player.
-int Api::mur_last_played_amount(int player) {
-  // TODO
-  abort();
+int Api::mur_last_used_stock(int player) {
+  return game_state()->get_mur_last_used_stock(player);
 }
 
 /// Position of the last played square in the NOSE game.
 nose_position Api::nose_last_played_square() {
-  // TODO
-  abort();
+  return game_state()->get_nose_last_played_square();
 }
 
 /// Number of remaining squares in the NOSE game.
 int Api::nose_remaining_squares() {
-  // TODO
-  abort();
+  return game_state()->get_remaining_square();
 }
 
 /// Minimum number of squares to take. Returns -1 if the MUR game of the current
 /// turn is not over.
 int Api::nose_squares_to_take() {
-  // TODO
-  abort();
+  return game_state()->get_nose_squares_to_take();
 }
