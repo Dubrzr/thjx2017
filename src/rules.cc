@@ -57,7 +57,7 @@ bool Rules::is_finished()
 void Rules::player_turn()
 {
   played_game game = api_->game_state()->get_current_played_game();
-  switch (played_game)
+  switch (game)
   {
     case MUR:
       sandbox_.execute(champ_play_mur_);
