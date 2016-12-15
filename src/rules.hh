@@ -30,7 +30,6 @@ public:
   virtual bool is_finished();
 
 protected:
-  void at_server_start(rules::ServerMessenger_sptr msgr);
   void at_player_start(rules::ClientMessenger_sptr msgr);
   void at_player_end(rules::ClientMessenger_sptr msgr);
 

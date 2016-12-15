@@ -68,11 +68,6 @@ void Rules::player_turn()
   }
 }
 
-void Rules::at_server_start(rules::ServerMessenger_sptr msgr)
-{
-  // FIXME
-}
-
 void Rules::at_player_start(rules::ClientMessenger_sptr msgr)
 {
   // FIXME
