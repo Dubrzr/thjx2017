@@ -80,7 +80,16 @@ void Rules::at_player_end(rules::ClientMessenger_sptr)
 
 void Rules::start_of_round()
 {
-  // FIXME
+  played_game game = api_->game_state()->get_current_played_game();
+  switch (game)
+  {
+    case MUR:
+      api_->game_state()->init_mur();
+      break;
+    case NOSE:
+      api_->game_state()->init_nose();
+      break;
+  }
 }
 
 void Rules::end_of_round()
