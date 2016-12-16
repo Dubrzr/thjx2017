@@ -78,6 +78,7 @@ public:
   // called when both players chose (position, stock_amount)
   // returns the id of the winner
   int resolve_mur();
+  int resolve_nose();
   // returns whether the game is over
   bool is_finished() const;
 

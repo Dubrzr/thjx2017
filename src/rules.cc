@@ -94,7 +94,16 @@ void Rules::start_of_round()
 
 void Rules::end_of_round()
 {
-  // FIXME
+  played_game game = api_->game_state()->get_current_played_game();
+  switch (game)
+  {
+    case MUR:
+      api_->game_state()->resolve_mur();
+      break;
+    case NOSE:
+      api_->game_state()->resolve_nose();
+      break;
+  }
 }
 
 void Rules::end_of_player_turn(unsigned player_id)
