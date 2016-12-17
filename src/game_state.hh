@@ -56,16 +56,22 @@ public:
   // MUR
   int get_mur_remaining_stock(unsigned player) const
   { return player_info_.at(player).mur_remaining_stock; }
+
   mur_role get_mur_current_role(unsigned player) const
   { return player_info_.at(player).mur_current_role; }
+
   int get_mur_used_stock_amount(unsigned player) const
   { return player_info_.at(player).mur_used_stock_amount; }
+
   int get_mur_last_used_stock_amount(unsigned player) const
   { return player_info_.at(player).mur_last_used_stock_amount; }
+
   mur_position get_mur_played_position(unsigned player) const
   { return player_info_.at(player).mur_played_position; }
+
   mur_position get_mur_last_played_position(unsigned player) const
   { return player_info_.at(player).mur_last_played_position; }
+
   unsigned mur_winner() const { /* FIXME */ }
 
   // NOSE
@@ -95,12 +101,15 @@ public:
 
 private:
   // Global state
+  unsigned p_[2]; // player IDs
   rules::Players_sptr players_;
-  unsigned p_[2];
-  played_game current_played_game_; // either MUR or NOSE
   std::unordered_map<unsigned, player_info> player_info_;
+
+  played_game current_played_game_; // either MUR or NOSE
+
   // MUR specific
   unsigned mur_winner_;
+
   // NOSE specific
   nose_position nose_last_played_square_;
 
