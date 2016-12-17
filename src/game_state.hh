@@ -77,7 +77,6 @@ public:
 
   // called to initialize the MUR and NOSE game
   void init_mur();
-  void init_nose();
 
   // called to set a move for players who timed out
   void auto_mur();

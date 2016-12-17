@@ -82,16 +82,10 @@ void Rules::at_player_end(rules::ClientMessenger_sptr)
 
 void Rules::start_of_round()
 {
+  // We should not init NOSE since it keeps it's state during the whole game
   played_game game = api_->game_state()->get_current_played_game();
-  switch (game)
-  {
-    case MUR:
+  if (game == MUR)
       api_->game_state()->init_mur();
-      break;
-    case NOSE:
-      api_->game_state()->init_nose();
-      break;
-  }
 }
 
 void Rules::end_of_round()
