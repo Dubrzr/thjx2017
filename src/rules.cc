@@ -2,7 +2,7 @@
 #include "actions.hh"
 
 Rules::Rules(const rules::Options opt)
-  : TurnBasedRules(opt), sandbox_(opt.time)
+  : TurnBasedRules(opt), sandbox_(opt.time), nose_player(-1)
 {
   if (!opt.champion_lib.empty())
   {
@@ -63,6 +63,9 @@ void Rules::player_turn()
       sandbox_.execute(champ_play_mur_);
       break;
     case NOSE:
+      if (static_cast<unsigned>(nose_player_) != api_->player()->id)
+          return;
+
       sandbox_.execute(champ_play_nose_);
       break;
   }
@@ -98,7 +101,7 @@ void Rules::end_of_round()
   switch (game)
   {
     case MUR:
-      api_->game_state()->resolve_mur();
+      nose_player_ = api_->game_state()->resolve_mur();
       break;
     case NOSE:
       api_->game_state()->resolve_nose();

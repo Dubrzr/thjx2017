@@ -49,6 +49,7 @@ protected:
 
 private:
   void register_actions();
+  int nose_player_;
 
   std::unique_ptr<utils::DLL> champion_dll_;
   std::unique_ptr<Api> api_;
