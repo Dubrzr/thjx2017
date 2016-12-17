@@ -109,7 +109,17 @@ void Rules::end_of_round()
 
 void Rules::end_of_player_turn(unsigned player_id)
 {
-  // FIXME
+  // Auto play if player did not return a correct action
+  played_game game = api_->game_state()->get_current_played_game();
+  switch (game)
+  {
+    case MUR:
+      api_->game_state()->auto_mur();
+      break;
+    case NOSE:
+      api_->game_state()->auto_nose();
+      break;
+  }
 }
 
 void Rules::dump_state(std::ostream& out)

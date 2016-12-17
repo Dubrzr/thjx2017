@@ -77,6 +77,11 @@ public:
   // called to initialize the MUR game
   void init_mur();
   void init_nose();
+
+  // called to set a move for players who timed out
+  void auto_mur();
+  void auto_nose();
+
   // called when both players chose (position, stock_amount)
   // returns the id of the winner
   int resolve_mur();
