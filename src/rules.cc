@@ -54,6 +54,7 @@ bool Rules::is_finished()
 
 void Rules::player_turn()
 {
+  // Execute the correct game for the correct player
   played_game game = api_->game_state()->get_current_played_game();
   switch (game)
   {
@@ -95,6 +96,7 @@ void Rules::start_of_round()
 
 void Rules::end_of_round()
 {
+  // Solve the games when both players played
   played_game game = api_->game_state()->get_current_played_game();
   switch (game)
   {

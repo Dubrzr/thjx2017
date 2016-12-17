@@ -74,7 +74,8 @@ public:
 
   // general
   // -------
-  // called to initialize the MUR game
+
+  // called to initialize the MUR and NOSE game
   void init_mur();
   void init_nose();
 
@@ -83,9 +84,10 @@ public:
   void auto_nose();
 
   // called when both players chose (position, stock_amount)
-  // returns the id of the winner
+  // returns the id of the looser
   int resolve_mur();
   int resolve_nose();
+
   // returns whether the game is over
   bool is_finished() const;
 
