@@ -66,7 +66,7 @@ public:
     int score(int player);
 
     /// MUR role (attacker/defender) of the specified player.
-    mur_role mur_role(int player);
+    mur_role mur_role_of_player(int player);
 
     /// Current amount of stock remaining for the specified player.
     int mur_remaining_stock(int player);

@@ -86,7 +86,7 @@ function:
 # Observers for the whole game
 
   -
-    fct_name: mur_role
+    fct_name: mur_role_of_player
     fct_summary: "MUR role (attacker/defender) of the specified player."
     fct_ret_type: mur_role
     fct_arg:

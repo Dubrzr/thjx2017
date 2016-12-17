@@ -4,6 +4,7 @@
 #define GAME_STATE_HH
 
 #include <random>
+#include <unordered_map>
 
 #include <rules/game-state.hh>
 #include <rules/player.hh>
@@ -75,6 +76,7 @@ public:
   // -------
   // called to initialize the MUR game
   void init_mur();
+  void init_nose();
   // called when both players chose (position, stock_amount)
   // returns the id of the winner
   int resolve_mur();

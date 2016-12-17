@@ -76,7 +76,7 @@ int Api::score(int player)
 }
 
 /// MUR role (attacker/defender) of the specified player.
-mur_role Api::mur_role(int player)
+mur_role Api::mur_role_of_player(int player)
 {
     // TODO
     abort();

@@ -183,7 +183,7 @@ extern "C" int api_score(int player)
 /// MUR role (attacker/defender) of the specified player.
 extern "C" mur_role api_mur_role(int player)
 {
-  return api->mur_role(player);
+  return api->mur_role_of_player(player);
 }
 
 /// Current amount of stock remaining for the specified player.
