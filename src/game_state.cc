@@ -108,6 +108,15 @@ int GameState::resolve_mur()
   return ret;
 }
 
+void GameState::resolve_nose()
+{
+  auto& p = player_info_.at(nose_player_);
+  auto pos_played = p.nose_played_square;
+
+  if ((pos_played.x | pos_played.y) == 0)
+    is_finished_ = true;
+}
+
 void GameState::compute_losses()
 {
   auto& at = player_info_.at(p_[ATTACKER]);
