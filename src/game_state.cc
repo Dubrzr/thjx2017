@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include "game_state.hh"
+#include "action_play_mur.hh"
+#include "action_play_nose.hh"
 #include "losses.hh"
 
 
@@ -136,4 +138,36 @@ void GameState::compute_losses()
 
   at.mur_stock -= at_losses;
   df.mur_stock -= df_losses;
+}
+
+void GameState::auto_mur(unsigned player_id)
+{
+  auto& p = player_info_[player_id];
+
+  if (p.mur_pos != POS_INVALID && p.mur_used_stock != -1)
+    return;
+
+  p.mur_pos = POS_INVALID;
+  p.mur_used_stock = -1;
+
+  ActionPlayMur a{POS_N, p.mur_stock, static_cast<int>(player_id)};
+  a.check(this);
+  a.apply_on(this);
+}
+
+void GameState::auto_nose(unsigned player_id)
+{
+  auto& p = player_info_[player_id];
+
+  if (player_id != nose_player_)
+    return;
+
+  if (p.nose_played_square.x != -1 && p.nose_played_square.y != -1)
+    return;
+
+  p.nose_last_played_square = { -1, -1 };
+
+  ActionPlayNose a{0, 0, static_cast<int>(player_id)};
+  a.check(this);
+  a.apply_on(this);
 }
