@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "game_state.hh"
+#include "losses.hh"
 
 
 // Player with smallest ID is alsways attacker
@@ -53,4 +54,77 @@ void GameState::init_mur()
     pi.second.mur_pos = POS_INVALID;
     pi.second.nose_played_square = { -1, -1 };
   }
+}
+
+int GameState::get_mur_loser()
+{
+  auto at = player_info_.at(p_[ATTACKER]);
+  auto df = player_info_.at(p_[DEFENDER]);
+
+  auto at_mur = at.mur_stock;
+  auto df_mur = df.mur_stock;
+
+  if (at_mur <= 0 && df_mur <= 0)
+    return -1;
+
+  if (at_mur <= 0)
+    return p_[ATTACKER];
+
+  if (at_mur <= 0)
+    return p_[DEFENDER];
+
+  return -1;
+}
+
+int GameState::resolve_mur()
+{
+  compute_losses();
+
+  auto& at = player_info_.at(p_[ATTACKER]);
+  auto& df = player_info_.at(p_[DEFENDER]);
+
+  auto at_mur = at.mur_stock;
+  auto df_mur = df.mur_stock;
+
+  int ret = get_mur_loser();
+
+  if (at_mur <= 0 && df_mur <= 0) {
+    is_finished_ = true;
+
+    auto points = squares_left(grid_);
+    *at.score -= points;
+    *df.score -= points;
+
+    return ret;
+  }
+
+  if (ret == -1)
+    return ret;
+
+  set_current_played_game(NOSE);
+  min_value_to_be_taken = player_info_.at(opponent(ret)).mur_stock;
+  nose_player_ = ret;
+
+  return ret;
+}
+
+void GameState::compute_losses()
+{
+  auto& at = player_info_.at(p_[ATTACKER]);
+  auto& df = player_info_.at(p_[DEFENDER]);
+
+  auto& at_mur = at.mur_used_stock;
+  auto& df_mur = df.mur_used_stock;
+
+  kl_pair akl = attacker_losses[at.mur_pos][df.mur_pos];
+  kl_pair dkl = defender_losses[at.mur_pos][df.mur_pos];
+
+  auto at_losses = at_mur * akl.k + df_mur * akl.l;
+  auto df_losses = at_mur * dkl.k + df_mur * dkl.l;
+
+  std::cout << "Att: " << at_losses << std::endl;
+  std::cout << "Def: " << df_losses << std::endl;
+
+  at.mur_stock -= at_losses;
+  df.mur_stock -= df_losses;
 }
