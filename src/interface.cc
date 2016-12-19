@@ -112,8 +112,10 @@ std::string convert_to_string(action_error in){
   {
     case OK: return "\"ok\"";
     case INVALID_ARGUMENT: return "\"invalid_argument\"";
-    case WRONG_PHASE: return "\"wrong_phase\"";
+    case INVALID_NOSE_PLAYER: return "\"invalid_nose_player\"";
+    case WRONG_GAME: return "\"wrong_game\"";
     case LACK_RESOURCES: return "\"lack_resources\"";
+    case NOT_ENOUGH_SQUARES_TAKEN: return "\"not_enough_squares_taken\"";
     case ALREADY_CALLED: return "\"already_called\"";
   }
   return "bad value";
@@ -181,15 +183,15 @@ extern "C" int api_score(int player)
 }
 
 /// MUR role (attacker/defender) of the specified player.
-extern "C" mur_role api_mur_role(int player)
+extern "C" mur_role api_mur_role_of_player(int player)
 {
   return api->mur_role_of_player(player);
 }
 
 /// Current amount of stock remaining for the specified player.
-extern "C" int api_mur_remaining_stock(int player)
+extern "C" int api_mur_stock(int player)
 {
-  return api->mur_remaining_stock(player);
+  return api->mur_stock(player);
 }
 
 /// Amount of stock lost considering both players' moves.
@@ -199,9 +201,9 @@ extern "C" int api_mur_compute_stock_loss(mur_position your_position, mur_positi
 }
 
 /// Last MUR position played by the specified player.
-extern "C" mur_position api_mur_last_played_position(int player)
+extern "C" mur_position api_mur_last_pos(int player)
 {
-  return api->mur_last_played_position(player);
+  return api->mur_last_pos(player);
 }
 
 /// Last stock amount used by the specified player.
@@ -265,8 +267,10 @@ std::ostream& operator<<(std::ostream& os, action_error v)
   switch (v) {
   case OK: os << "OK"; break;
   case INVALID_ARGUMENT: os << "INVALID_ARGUMENT"; break;
-  case WRONG_PHASE: os << "WRONG_PHASE"; break;
+  case INVALID_NOSE_PLAYER: os << "INVALID_NOSE_PLAYER"; break;
+  case WRONG_GAME: os << "WRONG_GAME"; break;
   case LACK_RESOURCES: os << "LACK_RESOURCES"; break;
+  case NOT_ENOUGH_SQUARES_TAKEN: os << "NOT_ENOUGH_SQUARES_TAKEN"; break;
   case ALREADY_CALLED: os << "ALREADY_CALLED"; break;
   }
   return os;

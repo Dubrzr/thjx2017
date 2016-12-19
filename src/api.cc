@@ -83,7 +83,7 @@ mur_role Api::mur_role_of_player(int player)
 }
 
 /// Current amount of stock remaining for the specified player.
-int Api::mur_remaining_stock(int player)
+int Api::mur_stock(int player)
 {
     // TODO
     abort();
@@ -97,7 +97,7 @@ int Api::mur_compute_stock_loss(mur_position your_position, mur_position their_p
 }
 
 /// Last MUR position played by the specified player.
-mur_position Api::mur_last_played_position(int player)
+mur_position Api::mur_last_pos(int player)
 {
     // TODO
     abort();

@@ -37,8 +37,10 @@ typedef enum mur_role {
 typedef enum action_error {
   OK, /* <- The action was performed successfully. */
   INVALID_ARGUMENT, /* <- Invalid argument received. */
-  WRONG_PHASE, /* <- This action cannot be performed during this phase. */
+  INVALID_NOSE_PLAYER, /* <- Player should not play NOSE. */
+  WRONG_GAME, /* <- This action cannot be performed during this game. */
   LACK_RESOURCES, /* <- You need more resources to perform this action. */
+  NOT_ENOUGH_SQUARES_TAKEN, /* <- You need to take more squares. */
   ALREADY_CALLED, /* <- You cannot call this action multiple times. */
 } action_error;
 
