@@ -38,3 +38,19 @@ rules::GameState* GameState::copy() const
 {
     return new GameState(*this);
 }
+
+void GameState::init_mur()
+{
+  for (auto& pi: player_info_)
+  {
+    pi.second.mur_stock = MUR_INITIAL_STOCK;
+
+    pi.second.mur_last_pos = pi.second.mur_pos;
+    pi.second.mur_last_used_stock = pi.second.mur_used_stock;
+    pi.second.nose_last_played_square = pi.second.nose_played_square;
+
+    pi.second.mur_used_stock = 0;
+    pi.second.mur_pos = POS_INVALID;
+    pi.second.nose_played_square = { -1, -1 };
+  }
+}
