@@ -29,8 +29,10 @@ enum:
     enum_field:
       - [ok, "The action was performed successfully."]
       - [invalid_argument, "Invalid argument received."]
-      - [wrong_phase, "This action cannot be performed during this phase."]
+      - [invalid_nose_player, "Player should not play NOSE."]
+      - [wrong_game, "This action cannot be performed during this game."]
       - [lack_resources, "You need more resources to perform this action."]
+      - [not_enough_squares_taken, "You need to take more squares."]
       - [already_called, "You cannot call this action multiple times."]
 
 struct:
@@ -92,7 +94,7 @@ function:
     fct_arg:
       - [player, int, "Player identifier."]
   -
-    fct_name: mur_remaining_stock
+    fct_name: mur_stock
     fct_summary: "Current amount of stock remaining for the specified player."
     fct_ret_type: int
     fct_arg:
@@ -112,7 +114,7 @@ function:
 # Observer for specific phases
 
   -
-    fct_name: mur_last_played_position
+    fct_name: mur_last_pos
     fct_summary: "Last MUR position played by the specified player."
     fct_ret_type: mur_position
     fct_arg:

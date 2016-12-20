@@ -2,7 +2,7 @@
 #include "actions.hh"
 
 Rules::Rules(const rules::Options opt)
-  : TurnBasedRules(opt), sandbox_(opt.time), nose_player_(0)
+  : TurnBasedRules(opt), nose_player_(0), sandbox_(opt.time)
 {
   if (!opt.champion_lib.empty())
   {
@@ -72,11 +72,13 @@ void Rules::player_turn()
 
 void Rules::at_player_start(rules::ClientMessenger_sptr msgr)
 {
+  (void) msgr;
   sandbox_.execute(champ_game_init_);
 }
 
-void Rules::at_player_end(rules::ClientMessenger_sptr)
+void Rules::at_player_end(rules::ClientMessenger_sptr msgr)
 {
+  (void) msgr;
   sandbox_.execute(champ_game_end_);
 }
 
@@ -110,15 +112,16 @@ void Rules::end_of_player_turn(unsigned player_id)
   switch (game)
   {
     case MUR:
-      api_->game_state()->auto_mur();
+      api_->game_state()->auto_mur(player_id);
       break;
     case NOSE:
-      api_->game_state()->auto_nose();
+      api_->game_state()->auto_nose(player_id);
       break;
   }
 }
 
 void Rules::dump_state(std::ostream& out)
 {
+  (void) out;
   // dump_game_state(out, *api_->game_state());
 }

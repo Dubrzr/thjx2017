@@ -3,6 +3,7 @@
 #ifndef GAME_STATE_HH
 #define GAME_STATE_HH
 
+#include <array>
 #include <random>
 #include <unordered_map>
 
@@ -13,6 +14,8 @@
 
 class ActionTest;
 
+using nose_grid = std::array<std::array<bool, 1024>, 3>;
+
 enum played_game
 {
   MUR,
@@ -22,16 +25,17 @@ enum played_game
 struct player_info
 {
   // MUR specific
-  int mur_remaining_stock;
+  int mur_stock;
   mur_role mur_current_role;
 
-  mur_position mur_played_position;
-  mur_position mur_last_played_position;
+  mur_position mur_pos;
+  mur_position mur_last_pos;
 
-  int mur_used_stock_amount;
-  int mur_last_used_stock_amount;
+  int mur_used_stock;
+  int mur_last_used_stock;
 
   // NOSE specific
+  nose_position nose_played_square;
   nose_position nose_last_played_square;
 
   int *score; // reference to stechec score for convenience
@@ -44,6 +48,7 @@ public:
   virtual rules::GameState* copy() const;
 
   played_game get_current_played_game() const { return current_played_game_; }
+  void set_current_played_game(played_game g) { current_played_game_ = g; }
 
   const rules::Players_sptr& get_players() const { return players_; }
 
@@ -53,31 +58,58 @@ public:
   int get_score(unsigned player) const
   { return *player_info_.at(player).score; }
 
-  // MUR
-  int get_mur_remaining_stock(unsigned player) const
-  { return player_info_.at(player).mur_remaining_stock; }
+  void set_score(unsigned player, int score) const
+  { *player_info_.at(player).score = score; }
 
-  mur_role get_mur_current_role(unsigned player) const
+  // MUR
+  int get_mur_stock(unsigned player) const
+  { return player_info_.at(player).mur_stock; }
+
+  mur_role get_mur_role(unsigned player) const
   { return player_info_.at(player).mur_current_role; }
 
-  int get_mur_used_stock_amount(unsigned player) const
-  { return player_info_.at(player).mur_used_stock_amount; }
+  int get_mur_used_stock(unsigned player) const
+  { return player_info_.at(player).mur_used_stock; }
 
-  int get_mur_last_used_stock_amount(unsigned player) const
-  { return player_info_.at(player).mur_last_used_stock_amount; }
+  void set_mur_used_stock(unsigned player, unsigned amount)
+  { player_info_.at(player).mur_used_stock = amount; }
 
-  mur_position get_mur_played_position(unsigned player) const
-  { return player_info_.at(player).mur_played_position; }
+  int get_mur_last_used_stock(unsigned player) const
+  { return player_info_.at(player).mur_last_used_stock; }
 
-  mur_position get_mur_last_played_position(unsigned player) const
-  { return player_info_.at(player).mur_last_played_position; }
+  mur_position get_mur_position(unsigned player) const
+  { return player_info_.at(player).mur_pos; }
 
-  unsigned mur_winner() const { /* FIXME */ }
+  void set_mur_position(unsigned player, mur_position pos)
+  { player_info_.at(player).mur_pos = pos; }
+
+  mur_position get_mur_last_position(unsigned player) const
+  { return player_info_.at(player).mur_last_pos; }
 
   // NOSE
-  nose_position get_nose_last_played_square(unsigned player) const
-  { return player_info_.at(player).nose_last_played_square; }
+  nose_position get_nose_played_square(unsigned player) const
+  { return player_info_.at(player).nose_played_square; }
 
+  void set_nose_played_square(unsigned player, nose_position pos)
+  { player_info_.at(player).nose_played_square = pos; }
+
+  unsigned get_nose_player_id() const
+  { return nose_player_; }
+
+  void set_nose_player_id(unsigned id)
+  { nose_player_ = id; }
+
+  int get_nose_min_value_to_be_played() const
+  { return min_value_to_be_taken; }
+
+  void set_nose_min_value_to_be_played(int val)
+  { min_value_to_be_taken = val; }
+
+  nose_grid get_nose_grid() const
+  { return grid_; }
+
+  nose_grid& get_nose_grid_ref()
+  { return grid_; }
   // general
   // -------
 
@@ -85,35 +117,40 @@ public:
   void init_mur();
 
   // called to set a move for players who timed out
-  void auto_mur();
-  void auto_nose();
+  void auto_mur(unsigned player_id);
+  void auto_nose(unsigned player_id);
 
-  // called when both players chose (position, stock_amount)
-  // returns the id of the looser
-  unsigned resolve_mur();
-  unsigned resolve_nose();
+  int resolve_mur(); // returns -1 or the ID of the player who lost
+  void resolve_nose();
 
   // returns whether the game is over
-  bool is_finished() const;
+  bool is_finished() const
+  { return is_finished_; }
 
   // tests
   friend class ActionTest;
 
 private:
   // Global state
-  unsigned p_[2]; // player IDs
   rules::Players_sptr players_;
+  std::array<unsigned, 2> p_;
+  played_game current_played_game_; // either MUR or NOSE
   std::unordered_map<unsigned, player_info> player_info_;
 
-  played_game current_played_game_; // either MUR or NOSE
-
   // MUR specific
-  unsigned mur_winner_;
+  void compute_losses();
+  int get_mur_loser();
 
   // NOSE specific
-  nose_position nose_last_played_square_;
+  unsigned nose_player_;
+  int min_value_to_be_taken;
 
-  void set_current_played_game(played_game g) { current_played_game_ = g; }
+  nose_position nose_last_played_square_;
+  nose_grid grid_;
+
+  bool is_finished_;
 };
+
+int squares_left(nose_grid g);
 
 #endif /* !GAME_STATE_HH */
