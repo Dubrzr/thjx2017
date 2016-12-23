@@ -29,8 +29,6 @@ private:
   int x_;
   int y_;
   int player_id_;
-
-  int squares_taken(nose_grid g, nose_position p) const;
 };
 
 #endif // !ACTION_PLAY_NOSE_HH

@@ -9,10 +9,10 @@
 // Test cancelled auction
 TEST_F(ActionTest, ActionNose_continue) {
   get_game_phase() = NOSE;
-  st->set_nose_player_id(PLAYER_1);
-  st->set_score(PLAYER_1, 0);
+  get_nose_player() = PLAYER_1;
+  *get_player_info(PLAYER_1).score = 30;
 
-  auto& g = st->get_nose_grid_ref();
+  auto& g = get_nose_grid();
   for (size_t i = 0; i < g.size(); ++i)
     std::fill(g[i].begin(), g[i].end(), false);
 
@@ -33,13 +33,13 @@ TEST_F(ActionTest, ActionNose_continue) {
 TEST_F(ActionTest, ActionNose_end) {
   auto min_val = 100;
   get_game_phase() = NOSE;
-  st->set_nose_player_id(PLAYER_1);
+  get_nose_player() = PLAYER_1;
+
   get_player_info(PLAYER_2).mur_stock = 1;
-  st->set_nose_min_value_to_be_played(min_val);
+  get_min_value() = min_val;
+  *get_player_info(PLAYER_1).score = 0;
 
-  st->set_score(PLAYER_1, 0);
-
-  auto& g = st->get_nose_grid_ref();
+  auto& g = get_nose_grid();
   for (size_t i = 0; i < g.size(); ++i)
     std::fill(g[i].begin(), g[i].end(), false);
 

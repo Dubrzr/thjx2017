@@ -35,6 +35,9 @@ protected:
   }
 
   played_game& get_game_phase() { return st->current_played_game_; }
+  unsigned& get_nose_player() { return st->nose_player_; }
+  nose_grid& get_nose_grid() { return st->grid_; }
+  int& get_min_value() { return st->min_value_to_be_taken; }
 };
 
 #endif /* !TESTHELPERS_HH_ */

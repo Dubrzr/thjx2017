@@ -19,7 +19,7 @@ TEST_F(ActionTest, ActionNOSE_correct_game) {
 TEST_F(ActionTest, ActionPlayNose_repeat) {
   get_game_phase() = NOSE;
   for (int player : {PLAYER_1, PLAYER_2}) {
-    st->set_nose_player_id(player);
+    get_nose_player() = player;
     ActionPlayNose action(1, 1, player);
 
     EXPECT_EQ(OK, action.check(st));
@@ -32,7 +32,7 @@ TEST_F(ActionTest, ActionPlayNose_repeat) {
 TEST_F(ActionTest, ActionNOSE_negative_position) {
   get_game_phase() = NOSE;
   for (int player : {PLAYER_1, PLAYER_2}) {
-    st->set_nose_player_id(player);
+    get_nose_player() = player;
 
     ActionPlayNose actionx(-1, 1, player);
     EXPECT_EQ(INVALID_ARGUMENT, actionx.check(st));
@@ -47,7 +47,7 @@ TEST_F(ActionTest, ActionNOSE_negative_position) {
 
 // Test invalid player
 TEST_F(ActionTest, ActionNOSE_invalid_player) {
-  st->set_nose_player_id(PLAYER_2);
+  get_nose_player() = PLAYER_2;
   ActionPlayNose action(1, 1, PLAYER_1);
 
   EXPECT_EQ(INVALID_NOSE_PLAYER, action.check(st));

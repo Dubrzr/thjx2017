@@ -4,6 +4,7 @@
 #define GAME_STATE_HH
 
 #include <array>
+#include <memory>
 #include <random>
 #include <unordered_map>
 
@@ -22,6 +23,7 @@ enum played_game {
 };
 
 struct player_info {
+
   // MUR specific
   int mur_stock;
   mur_role mur_current_role;
@@ -36,7 +38,7 @@ struct player_info {
   nose_position nose_played_square;
   nose_position nose_last_played_square;
 
-  int* score; // reference to stechec score for convenience
+  int* score;
 };
 
 class GameState : public rules::GameState {
@@ -55,10 +57,6 @@ public:
 
   int get_score(unsigned player) const {
     return *player_info_.at(player).score;
-  }
-
-  void set_score(unsigned player, int score) const {
-    *player_info_.at(player).score = score;
   }
 
   // MUR
@@ -105,15 +103,10 @@ public:
 
   unsigned get_nose_player_id() const { return nose_player_; }
 
-  void set_nose_player_id(unsigned id) { nose_player_ = id; }
-
   int get_nose_min_value_to_be_played() const { return min_value_to_be_taken; }
-
-  void set_nose_min_value_to_be_played(int val) { min_value_to_be_taken = val; }
 
   nose_grid get_nose_grid() const { return grid_; }
 
-  nose_grid& get_nose_grid_ref() { return grid_; }
   // general
   // -------
 
@@ -142,6 +135,7 @@ private:
 
   // MUR specific
   void compute_losses();
+  int fill_squares();
   int get_mur_loser();
 
   // NOSE specific
@@ -154,6 +148,8 @@ private:
   bool is_finished_;
 };
 
-int squares_left(nose_grid g);
+int squares_left(const nose_grid& g);
+int squares_taken(const nose_grid& g, const nose_position& p);
+void fill_grid(nose_grid& grid, const nose_position& p);
 
 #endif /* !GAME_STATE_HH */

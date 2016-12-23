@@ -20,6 +20,7 @@ TEST_F(ActionTest, ActionMUR_continue) {
 
   for (int player : {PLAYER_1, PLAYER_2}) {
     get_player_info(player).mur_stock = start_res;
+
     ActionPlayMur action({POS_N}, mur_res, player);
     EXPECT_EQ(OK, action.check(st));
     action.apply_on(st);
@@ -57,19 +58,16 @@ TEST_F(ActionTest, ActionMUR_resolve_looser) {
 // Both Loose
 TEST_F(ActionTest, ActionMUR_resolve_both_looser) {
   get_game_phase() = MUR;
-  get_player_info(PLAYER_1).mur_stock = 0;
-  get_player_info(PLAYER_2).mur_stock = 0;
+  get_player_info(PLAYER_1).mur_stock = 30;
+  get_player_info(PLAYER_2).mur_stock = 30;
 
-  auto& grid = st->get_nose_grid_ref();
+  auto& grid = get_nose_grid();
   for (size_t i = 0; i < grid.size(); ++i)
     std::fill(grid[i].begin(), grid[i].end(), false);
 
   grid[0][0] = true;
   grid[1][0] = true;
   grid[0][1] = true;
-
-  get_player_info(PLAYER_1).mur_stock = 30;
-  get_player_info(PLAYER_2).mur_stock = 30;
 
   ActionPlayMur action1({POS_S}, 30, PLAYER_1);
   ActionPlayMur action2({POS_S}, 30, PLAYER_2);

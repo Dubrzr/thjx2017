@@ -23,6 +23,7 @@ GameState::GameState(rules::Players_sptr players)
     player_info_[p->id] = {MUR_INITIAL_STOCK, ATTACKER, POS_INVALID,
                            POS_INVALID,       0,        0,
                            {-1, -1},          {-1, -1}, &p->score};
+
     p_[pi++] = p->id;
   }
 
@@ -99,11 +100,16 @@ int GameState::resolve_mur() {
 }
 
 void GameState::resolve_nose() {
+  auto taken = fill_squares();
+
   auto& p = player_info_.at(nose_player_);
   auto pos_played = p.nose_played_square;
 
   if ((pos_played.x | pos_played.y) == 0)
     is_finished_ = true;
+
+  auto score = *p.score - (min_value_to_be_taken - taken + 1);
+  *p.score = score;
 }
 
 void GameState::compute_losses() {
@@ -154,4 +160,14 @@ void GameState::auto_nose(unsigned player_id) {
   ActionPlayNose a{0, 0, static_cast<int>(player_id)};
   a.check(this);
   a.apply_on(this);
+}
+
+int GameState::fill_squares() {
+  auto before = squares_left(grid_);
+
+  fill_grid(grid_, player_info_.at(nose_player_).nose_played_square);
+
+  auto after = squares_left(grid_);
+
+  return before - after;
 }
