@@ -60,13 +60,11 @@ void Rules::player_turn() {
   }
 }
 
-void Rules::at_player_start(rules::ClientMessenger_sptr msgr) {
-  (void)msgr;
+void Rules::at_player_start(rules::ClientMessenger_sptr) {
   sandbox_.execute(champ_game_init_);
 }
 
-void Rules::at_player_end(rules::ClientMessenger_sptr msgr) {
-  (void)msgr;
+void Rules::at_player_end(rules::ClientMessenger_sptr) {
   sandbox_.execute(champ_game_end_);
 }
 
@@ -103,7 +101,6 @@ void Rules::end_of_player_turn(unsigned player_id) {
   }
 }
 
-void Rules::dump_state(std::ostream& out) {
-  (void)out;
+void Rules::dump_state(std::ostream&) {
   // dump_game_state(out, *api_->game_state());
 }
