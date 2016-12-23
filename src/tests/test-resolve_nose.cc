@@ -7,8 +7,7 @@
 // test-helpers.hh).  This is where the "st" GameState is coming from.
 
 // Test cancelled auction
-TEST_F(ActionTest, ActionNose_continue)
-{
+TEST_F(ActionTest, ActionNose_continue) {
   get_game_phase() = NOSE;
   st->set_nose_player_id(PLAYER_1);
   st->set_score(PLAYER_1, 0);
@@ -31,8 +30,7 @@ TEST_F(ActionTest, ActionNose_continue)
 }
 
 // Test not cancelled auction
-TEST_F(ActionTest, ActionNose_end)
-{
+TEST_F(ActionTest, ActionNose_end) {
   auto min_val = 100;
   get_game_phase() = NOSE;
   st->set_nose_player_id(PLAYER_1);

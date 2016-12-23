@@ -5,8 +5,7 @@
 // test-helpers.hh).  This is where the "st" GameState is coming from.
 
 // Test that we are in the correct game
-TEST_F(ActionTest, ActionNOSE_correct_game)
-{
+TEST_F(ActionTest, ActionNOSE_correct_game) {
   ActionPlayNose action(1, 1, PLAYER_1);
 
   get_game_phase() = MUR;
@@ -17,11 +16,9 @@ TEST_F(ActionTest, ActionNOSE_correct_game)
 }
 
 // Test repeat_play
-TEST_F(ActionTest, ActionPlayNose_repeat)
-{
+TEST_F(ActionTest, ActionPlayNose_repeat) {
   get_game_phase() = NOSE;
-  for (int player : {PLAYER_1, PLAYER_2})
-  {
+  for (int player : {PLAYER_1, PLAYER_2}) {
     st->set_nose_player_id(player);
     ActionPlayNose action(1, 1, player);
 
@@ -32,11 +29,9 @@ TEST_F(ActionTest, ActionPlayNose_repeat)
 }
 
 // Test that amount is positive
-TEST_F(ActionTest, ActionNOSE_negative_position)
-{
+TEST_F(ActionTest, ActionNOSE_negative_position) {
   get_game_phase() = NOSE;
-  for (int player : {PLAYER_1, PLAYER_2})
-  {
+  for (int player : {PLAYER_1, PLAYER_2}) {
     st->set_nose_player_id(player);
 
     ActionPlayNose actionx(-1, 1, player);
@@ -51,8 +46,7 @@ TEST_F(ActionTest, ActionNOSE_negative_position)
 }
 
 // Test invalid player
-TEST_F(ActionTest, ActionNOSE_invalid_player)
-{
+TEST_F(ActionTest, ActionNOSE_invalid_player) {
   st->set_nose_player_id(PLAYER_2);
   ActionPlayNose action(1, 1, PLAYER_1);
 

@@ -16,14 +16,12 @@ class ActionTest;
 
 using nose_grid = std::array<std::array<bool, 1024>, 3>;
 
-enum played_game
-{
+enum played_game {
   MUR,
   NOSE,
 };
 
-struct player_info
-{
+struct player_info {
   // MUR specific
   int mur_stock;
   mur_role mur_current_role;
@@ -38,11 +36,10 @@ struct player_info
   nose_position nose_played_square;
   nose_position nose_last_played_square;
 
-  int *score; // reference to stechec score for convenience
+  int* score; // reference to stechec score for convenience
 };
 
-class GameState : public rules::GameState
-{
+class GameState : public rules::GameState {
 public:
   GameState(rules::Players_sptr players);
   virtual rules::GameState* copy() const;
@@ -52,64 +49,71 @@ public:
 
   const rules::Players_sptr& get_players() const { return players_; }
 
-  unsigned opponent(unsigned player) const
-  { return (p_[0] == player) ? p_[1] : p_[0]; }
+  unsigned opponent(unsigned player) const {
+    return (p_[0] == player) ? p_[1] : p_[0];
+  }
 
-  int get_score(unsigned player) const
-  { return *player_info_.at(player).score; }
+  int get_score(unsigned player) const {
+    return *player_info_.at(player).score;
+  }
 
-  void set_score(unsigned player, int score) const
-  { *player_info_.at(player).score = score; }
+  void set_score(unsigned player, int score) const {
+    *player_info_.at(player).score = score;
+  }
 
   // MUR
-  int get_mur_stock(unsigned player) const
-  { return player_info_.at(player).mur_stock; }
+  int get_mur_stock(unsigned player) const {
+    return player_info_.at(player).mur_stock;
+  }
 
-  mur_role get_mur_role(unsigned player) const
-  { return player_info_.at(player).mur_current_role; }
+  mur_role get_mur_role(unsigned player) const {
+    return player_info_.at(player).mur_current_role;
+  }
 
-  int get_mur_used_stock(unsigned player) const
-  { return player_info_.at(player).mur_used_stock; }
+  int get_mur_used_stock(unsigned player) const {
+    return player_info_.at(player).mur_used_stock;
+  }
 
-  void set_mur_used_stock(unsigned player, unsigned amount)
-  { player_info_.at(player).mur_used_stock = amount; }
+  void set_mur_used_stock(unsigned player, unsigned amount) {
+    player_info_.at(player).mur_used_stock = amount;
+  }
 
-  int get_mur_last_used_stock(unsigned player) const
-  { return player_info_.at(player).mur_last_used_stock; }
+  int get_mur_last_used_stock(unsigned player) const {
+    return player_info_.at(player).mur_last_used_stock;
+  }
 
-  mur_position get_mur_position(unsigned player) const
-  { return player_info_.at(player).mur_pos; }
+  mur_position get_mur_position(unsigned player) const {
+    return player_info_.at(player).mur_pos;
+  }
 
-  void set_mur_position(unsigned player, mur_position pos)
-  { player_info_.at(player).mur_pos = pos; }
+  void set_mur_position(unsigned player, mur_position pos) {
+    player_info_.at(player).mur_pos = pos;
+  }
 
-  mur_position get_mur_last_position(unsigned player) const
-  { return player_info_.at(player).mur_last_pos; }
+  mur_position get_mur_last_position(unsigned player) const {
+    return player_info_.at(player).mur_last_pos;
+  }
 
   // NOSE
-  nose_position get_nose_played_square(unsigned player) const
-  { return player_info_.at(player).nose_played_square; }
+  nose_position get_nose_played_square(unsigned player) const {
+    return player_info_.at(player).nose_played_square;
+  }
 
-  void set_nose_played_square(unsigned player, nose_position pos)
-  { player_info_.at(player).nose_played_square = pos; }
+  void set_nose_played_square(unsigned player, nose_position pos) {
+    player_info_.at(player).nose_played_square = pos;
+  }
 
-  unsigned get_nose_player_id() const
-  { return nose_player_; }
+  unsigned get_nose_player_id() const { return nose_player_; }
 
-  void set_nose_player_id(unsigned id)
-  { nose_player_ = id; }
+  void set_nose_player_id(unsigned id) { nose_player_ = id; }
 
-  int get_nose_min_value_to_be_played() const
-  { return min_value_to_be_taken; }
+  int get_nose_min_value_to_be_played() const { return min_value_to_be_taken; }
 
-  void set_nose_min_value_to_be_played(int val)
-  { min_value_to_be_taken = val; }
+  void set_nose_min_value_to_be_played(int val) { min_value_to_be_taken = val; }
 
-  nose_grid get_nose_grid() const
-  { return grid_; }
+  nose_grid get_nose_grid() const { return grid_; }
 
-  nose_grid& get_nose_grid_ref()
-  { return grid_; }
+  nose_grid& get_nose_grid_ref() { return grid_; }
   // general
   // -------
 
@@ -124,8 +128,7 @@ public:
   void resolve_nose();
 
   // returns whether the game is over
-  bool is_finished() const
-  { return is_finished_; }
+  bool is_finished() const { return is_finished_; }
 
   // tests
   friend class ActionTest;

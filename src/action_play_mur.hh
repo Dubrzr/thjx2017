@@ -4,21 +4,19 @@
 #include <rules/action.hh>
 
 #include "actions.hh"
-#include "game_state.hh"
 #include "constant.hh"
+#include "game_state.hh"
 
-class ActionPlayMur : public rules::Action<GameState>
-{
+class ActionPlayMur : public rules::Action<GameState> {
 public:
   ActionPlayMur(mur_position position, int amount, int player_id)
-    : position_(position), amount_(amount), player_id_(player_id) {}
+      : position_(position), amount_(amount), player_id_(player_id) {}
   ActionPlayMur() {} // for register_action()
 
   int check(const GameState* st) const override;
   void apply_on(GameState* st) const override;
 
-  void handle_buffer(utils::Buffer& buf) override
-  {
+  void handle_buffer(utils::Buffer& buf) override {
     buf.handle(position_);
     buf.handle(amount_);
     buf.handle(player_id_);

@@ -11,20 +11,19 @@
 */
 
 #ifndef CONSTANT_HH_
-# define CONSTANT_HH_
+#define CONSTANT_HH_
 
 /// Initial stock given to each player at the start of a MUR game.
-# define MUR_INITIAL_STOCK         1024
+#define MUR_INITIAL_STOCK 1024
 
 /// Position a player can defend during a phase
 typedef enum mur_position {
-  POS_N, /* <- N */
-  POS_O, /* <- O */
-  POS_S, /* <- S */
-  POS_E, /* <- E */
+  POS_N,       /* <- N */
+  POS_O,       /* <- O */
+  POS_S,       /* <- S */
+  POS_E,       /* <- E */
   POS_INVALID, /* <- Invalid position */
 } mur_position;
-
 
 /// Role played during a MUR game (attacker or defender)
 typedef enum mur_role {
@@ -32,25 +31,21 @@ typedef enum mur_role {
   DEFENDER, /* <- Defender */
 } mur_role;
 
-
 /// Errors returned by the actions
 typedef enum action_error {
-  OK, /* <- The action was performed successfully. */
-  INVALID_ARGUMENT, /* <- Invalid argument received. */
+  OK,                  /* <- The action was performed successfully. */
+  INVALID_ARGUMENT,    /* <- Invalid argument received. */
   INVALID_NOSE_PLAYER, /* <- Player should not play NOSE. */
-  WRONG_GAME, /* <- This action cannot be performed during this game. */
+  WRONG_GAME,     /* <- This action cannot be performed during this game. */
   LACK_RESOURCES, /* <- You need more resources to perform this action. */
   NOT_ENOUGH_SQUARES_TAKEN, /* <- You need to take more squares. */
-  ALREADY_CALLED, /* <- You cannot call this action multiple times. */
+  ALREADY_CALLED,           /* <- You cannot call this action multiple times. */
 } action_error;
-
 
 /// Position on the NOSE grid.
 typedef struct nose_position {
-  int x;  /* <- x coordinate (row index) */
-  int y;  /* <- y coordinate (column index) */
+  int x; /* <- x coordinate (row index) */
+  int y; /* <- y coordinate (column index) */
 } nose_position;
-
-
 
 #endif // !CONSTANT_HH_

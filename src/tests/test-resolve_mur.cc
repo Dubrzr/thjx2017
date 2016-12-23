@@ -1,13 +1,12 @@
 #include "../action_play_mur.hh"
-#include "test-helpers.hh"
 #include "../losses.hh"
+#include "test-helpers.hh"
 
 // All the tests below are methods coming from the ActionTest class (see
 // test-helpers.hh).  This is where the "st" GameState is coming from.
 
 // Test normal action
-TEST_F(ActionTest, ActionMUR_continue)
-{
+TEST_F(ActionTest, ActionMUR_continue) {
   get_game_phase() = MUR;
 
   kl_pair akl = attacker_losses[POS_N][POS_N];
@@ -19,10 +18,9 @@ TEST_F(ActionTest, ActionMUR_continue)
   int p1_res = start_res - akl.k * mur_res - akl.l * mur_res;
   int p2_res = start_res - dkl.k * mur_res - dkl.l * mur_res;
 
-  for (int player : {PLAYER_1, PLAYER_2})
-  {
+  for (int player : {PLAYER_1, PLAYER_2}) {
     get_player_info(player).mur_stock = start_res;
-    ActionPlayMur action({ POS_N }, mur_res, player);
+    ActionPlayMur action({POS_N}, mur_res, player);
     EXPECT_EQ(OK, action.check(st));
     action.apply_on(st);
   }
@@ -35,15 +33,14 @@ TEST_F(ActionTest, ActionMUR_continue)
 }
 
 // Loose
-TEST_F(ActionTest, ActionMUR_resolve_looser)
-{
+TEST_F(ActionTest, ActionMUR_resolve_looser) {
   get_game_phase() = MUR;
 
   get_player_info(PLAYER_1).mur_stock = 30;
   get_player_info(PLAYER_2).mur_stock = 50;
 
-  ActionPlayMur action1({ POS_S }, 30, PLAYER_1);
-  ActionPlayMur action2({ POS_S }, 30, PLAYER_2);
+  ActionPlayMur action1({POS_S}, 30, PLAYER_1);
+  ActionPlayMur action2({POS_S}, 30, PLAYER_2);
 
   EXPECT_EQ(OK, action1.check(st));
   EXPECT_EQ(OK, action2.check(st));
@@ -58,8 +55,7 @@ TEST_F(ActionTest, ActionMUR_resolve_looser)
 }
 
 // Both Loose
-TEST_F(ActionTest, ActionMUR_resolve_both_looser)
-{
+TEST_F(ActionTest, ActionMUR_resolve_both_looser) {
   get_game_phase() = MUR;
   get_player_info(PLAYER_1).mur_stock = 0;
   get_player_info(PLAYER_2).mur_stock = 0;
@@ -75,8 +71,8 @@ TEST_F(ActionTest, ActionMUR_resolve_both_looser)
   get_player_info(PLAYER_1).mur_stock = 30;
   get_player_info(PLAYER_2).mur_stock = 30;
 
-  ActionPlayMur action1({ POS_S }, 30, PLAYER_1);
-  ActionPlayMur action2({ POS_S }, 30, PLAYER_2);
+  ActionPlayMur action1({POS_S}, 30, PLAYER_1);
+  ActionPlayMur action2({POS_S}, 30, PLAYER_2);
 
   EXPECT_EQ(OK, action1.check(st));
   EXPECT_EQ(OK, action2.check(st));

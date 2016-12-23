@@ -1,18 +1,15 @@
 #include "actions.hh"
 #include <algorithm>
 
-void fill_grid(nose_grid& grid, nose_position p)
-{
+void fill_grid(nose_grid& grid, nose_position p) {
   for (size_t i = 0; i < grid.size(); ++i)
-    for (size_t j = 0; j < grid[i].size(); ++j)
-    {
+    for (size_t j = 0; j < grid[i].size(); ++j) {
       if (i >= static_cast<size_t>(p.y) && j >= static_cast<size_t>(p.x))
         grid[i][j] = false;
     }
 }
 
-int ActionPlayNose::check(const GameState* st) const
-{
+int ActionPlayNose::check(const GameState* st) const {
 
   if (st->get_current_played_game() != NOSE)
     return WRONG_GAME;
@@ -27,7 +24,7 @@ int ActionPlayNose::check(const GameState* st) const
   if (x_ < 0 || y_ < 0)
     return INVALID_ARGUMENT;
 
-  auto taken = squares_taken(st->get_nose_grid(), { x_, y_ });
+  auto taken = squares_taken(st->get_nose_grid(), {x_, y_});
   auto min = st->get_nose_min_value_to_be_played();
 
   if (taken < min && ((x_ | y_) != 0))
@@ -36,14 +33,13 @@ int ActionPlayNose::check(const GameState* st) const
   return OK;
 }
 
-void ActionPlayNose::apply_on(GameState* st) const
-{
+void ActionPlayNose::apply_on(GameState* st) const {
   auto& grid = st->get_nose_grid_ref();
 
-  auto taken = squares_taken(grid, { x_, y_ });
-  st->set_nose_played_square(player_id_, { x_, y_ });
+  auto taken = squares_taken(grid, {x_, y_});
+  st->set_nose_played_square(player_id_, {x_, y_});
 
-  fill_grid(grid, { x_, y_ });
+  fill_grid(grid, {x_, y_});
 
   if ((x_ | y_) != 0)
     return;
@@ -54,8 +50,7 @@ void ActionPlayNose::apply_on(GameState* st) const
   st->set_score(player_id_, score);
 }
 
-int squares_left(nose_grid g)
-{
+int squares_left(nose_grid g) {
   int sum = 0;
 
   for (size_t i = 0; i < g.size(); ++i)
@@ -64,8 +59,7 @@ int squares_left(nose_grid g)
   return sum;
 }
 
-int ActionPlayNose::squares_taken(nose_grid g, nose_position p) const
-{
+int ActionPlayNose::squares_taken(nose_grid g, nose_position p) const {
   auto before = squares_left(g);
 
   fill_grid(g, p);

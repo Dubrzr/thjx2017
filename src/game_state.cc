@@ -1,33 +1,28 @@
 // FIXME License notice
 
-#include <algorithm>
 #include "game_state.hh"
 #include "action_play_mur.hh"
 #include "action_play_nose.hh"
 #include "losses.hh"
-
+#include <algorithm>
 
 // Player with smallest ID is alsways attacker
 // Apparently pn vs pm means pn will get the smallest ID
 GameState::GameState(rules::Players_sptr players)
-    : rules::GameState(),
-      players_(players),
-      nose_player_(0),
-      min_value_to_be_taken(0),
-      is_finished_(false)
-{
+    : rules::GameState(), players_(players), nose_player_(0),
+      min_value_to_be_taken(0), is_finished_(false) {
   for (size_t i = 0; i < grid_.size(); ++i)
     std::fill(grid_[i].begin(), grid_[i].end(), true);
 
   unsigned pi = 0;
-  for (auto& p: players_->players)
-  {
+  for (auto& p : players_->players) {
     if (p->type != rules::PLAYER)
       continue;
 
     p->score = 0;
-    player_info_[p->id] = { MUR_INITIAL_STOCK, ATTACKER, POS_INVALID,
-                            POS_INVALID, 0, 0, {-1, -1}, {-1, -1}, &p->score };
+    player_info_[p->id] = {MUR_INITIAL_STOCK, ATTACKER, POS_INVALID,
+                           POS_INVALID,       0,        0,
+                           {-1, -1},          {-1, -1}, &p->score};
     p_[pi++] = p->id;
   }
 
@@ -37,15 +32,10 @@ GameState::GameState(rules::Players_sptr players)
   player_info_[p_[DEFENDER]].mur_current_role = DEFENDER;
 }
 
-rules::GameState* GameState::copy() const
-{
-    return new GameState(*this);
-}
+rules::GameState* GameState::copy() const { return new GameState(*this); }
 
-void GameState::init_mur()
-{
-  for (auto& pi: player_info_)
-  {
+void GameState::init_mur() {
+  for (auto& pi : player_info_) {
     pi.second.mur_stock = MUR_INITIAL_STOCK;
 
     pi.second.mur_last_pos = pi.second.mur_pos;
@@ -54,12 +44,11 @@ void GameState::init_mur()
 
     pi.second.mur_used_stock = 0;
     pi.second.mur_pos = POS_INVALID;
-    pi.second.nose_played_square = { -1, -1 };
+    pi.second.nose_played_square = {-1, -1};
   }
 }
 
-int GameState::get_mur_loser()
-{
+int GameState::get_mur_loser() {
   auto at = player_info_.at(p_[ATTACKER]);
   auto df = player_info_.at(p_[DEFENDER]);
 
@@ -78,8 +67,7 @@ int GameState::get_mur_loser()
   return -1;
 }
 
-int GameState::resolve_mur()
-{
+int GameState::resolve_mur() {
   compute_losses();
 
   auto& at = player_info_.at(p_[ATTACKER]);
@@ -110,8 +98,7 @@ int GameState::resolve_mur()
   return ret;
 }
 
-void GameState::resolve_nose()
-{
+void GameState::resolve_nose() {
   auto& p = player_info_.at(nose_player_);
   auto pos_played = p.nose_played_square;
 
@@ -119,8 +106,7 @@ void GameState::resolve_nose()
     is_finished_ = true;
 }
 
-void GameState::compute_losses()
-{
+void GameState::compute_losses() {
   auto& at = player_info_.at(p_[ATTACKER]);
   auto& df = player_info_.at(p_[DEFENDER]);
 
@@ -140,8 +126,7 @@ void GameState::compute_losses()
   df.mur_stock -= df_losses;
 }
 
-void GameState::auto_mur(unsigned player_id)
-{
+void GameState::auto_mur(unsigned player_id) {
   auto& p = player_info_[player_id];
 
   if (p.mur_pos != POS_INVALID && p.mur_used_stock != -1)
@@ -155,8 +140,7 @@ void GameState::auto_mur(unsigned player_id)
   a.apply_on(this);
 }
 
-void GameState::auto_nose(unsigned player_id)
-{
+void GameState::auto_nose(unsigned player_id) {
   auto& p = player_info_[player_id];
 
   if (player_id != nose_player_)
@@ -165,7 +149,7 @@ void GameState::auto_nose(unsigned player_id)
   if (p.nose_played_square.x != -1 && p.nose_played_square.y != -1)
     return;
 
-  p.nose_last_played_square = { -1, -1 };
+  p.nose_last_played_square = {-1, -1};
 
   ActionPlayNose a{0, 0, static_cast<int>(player_id)};
   a.check(this);

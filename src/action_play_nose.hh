@@ -4,34 +4,33 @@
 #include <rules/action.hh>
 
 #include "actions.hh"
-#include "game_state.hh"
 #include "constant.hh"
+#include "game_state.hh"
 
-class ActionPlayNose : public rules::Action<GameState>
-{
+class ActionPlayNose : public rules::Action<GameState> {
 public:
-    ActionPlayNose(int x, int y, int player_id) : x_(x), y_(y), player_id_(player_id) {}
-    ActionPlayNose() {} // for register_action()
+  ActionPlayNose(int x, int y, int player_id)
+      : x_(x), y_(y), player_id_(player_id) {}
+  ActionPlayNose() {} // for register_action()
 
-    int check(const GameState* st) const override;
-    void apply_on(GameState* st) const override;
+  int check(const GameState* st) const override;
+  void apply_on(GameState* st) const override;
 
-    void handle_buffer(utils::Buffer& buf) override
-    {
-        buf.handle(x_);
-        buf.handle(y_);
-        buf.handle(player_id_);
-    }
+  void handle_buffer(utils::Buffer& buf) override {
+    buf.handle(x_);
+    buf.handle(y_);
+    buf.handle(player_id_);
+  }
 
-    uint32_t player_id() const override { return player_id_; };
-    uint32_t id() const override { return ID_ACTION_PLAY_NOSE; }
+  uint32_t player_id() const override { return player_id_; };
+  uint32_t id() const override { return ID_ACTION_PLAY_NOSE; }
 
 private:
-    int x_;
-    int y_;
-    int player_id_;
+  int x_;
+  int y_;
+  int player_id_;
 
-    int squares_taken(nose_grid g, nose_position p) const;
+  int squares_taken(nose_grid g, nose_position p) const;
 };
 
 #endif // !ACTION_PLAY_NOSE_HH
