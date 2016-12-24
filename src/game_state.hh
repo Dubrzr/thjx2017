@@ -165,5 +165,4 @@ private:
   bool is_finished_;
 };
 
-
 #endif /* !GAME_STATE_HH */

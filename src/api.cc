@@ -50,19 +50,13 @@ action_error Api::play_nose(int x, int y) {
 }
 
 /// Your identifier (not always in {0, 1}).
-int Api::me() {
-  return player_->id;
-}
+int Api::me() { return player_->id; }
 
 /// Your opponent's identifier (not always in {0, 1}).
-int Api::opponent() {
-  return game_state()->opponent(me());
-}
+int Api::opponent() { return game_state()->opponent(me()); }
 
 /// The current score of the specified player.
-int Api::score(int player) {
-  return game_state()->get_score(player);
-}
+int Api::score(int player) { return game_state()->get_score(player); }
 
 /// MUR role (attacker/defender) of the specified player.
 mur_role Api::mur_role_of_player(int player) {
@@ -70,14 +64,12 @@ mur_role Api::mur_role_of_player(int player) {
 }
 
 /// Current amount of stock remaining for the specified player.
-int Api::mur_stock(int player) {
-  return game_state()->get_mur_stock(player);
-}
+int Api::mur_stock(int player) { return game_state()->get_mur_stock(player); }
 
 /// Amount of stock lost considering both players' moves.
 int Api::mur_compute_stock_loss(mur_position your_position,
-                                mur_position their_position,
-                                int your_amount, int their_amount) {
+                                mur_position their_position, int your_amount,
+                                int their_amount) {
   mur_role your_role = mur_role_of_player(player_->id);
   if (your_role == ATTACKER)
     return mur_compute_stock_loss(your_position, their_position, your_amount,

@@ -1,10 +1,10 @@
 #include <algorithm>
 
-#include "game_state.hh"
 #include "action_play_mur.hh"
 #include "action_play_nose.hh"
-#include "losses.hh"
 #include "constant.hh"
+#include "game_state.hh"
+#include "losses.hh"
 
 // Player with smallest ID is alsways attacker
 // Apparently pn vs pm means pn will get the smallest ID
@@ -72,12 +72,12 @@ int GameState::resolve_mur() {
   auto& at = player_info_.at(p_[ATTACKER]); // get attacker
   auto& df = player_info_.at(p_[DEFENDER]); // get defender
 
-  // compute losses and update stocks
+  // compute losses
   int at_loss, df_loss;
-  std::tie(at_loss, df_loss) = mur_compute_stock_loss(at.mur_pos, df.mur_pos,
-                                                      at.mur_used_stock,
-                                                      df.mur_used_stock);
+  std::tie(at_loss, df_loss) = mur_compute_stock_loss(
+      at.mur_pos, df.mur_pos, at.mur_used_stock, df.mur_used_stock);
 
+  // update stocks
   at.mur_stock -= at_loss;
   df.mur_stock -= df_loss;
 
