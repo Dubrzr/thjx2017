@@ -16,6 +16,7 @@ def build(bld):
             src/action_play_mur.cc
             src/action_play_nose.cc
             src/api.cc
+            src/dumper.cc
             src/entry.cc
             src/game_state.cc
             src/interface.cc

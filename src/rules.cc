@@ -1,5 +1,6 @@
 #include "rules.hh"
 #include "actions.hh"
+#include "dumper.hh"
 
 Rules::Rules(const rules::Options opt)
     : TurnBasedRules(opt), nose_player_(0), sandbox_(opt.time) {
@@ -101,6 +102,6 @@ void Rules::end_of_player_turn(unsigned player_id) {
   }
 }
 
-void Rules::dump_state(std::ostream&) {
-  // dump_game_state(out, *api_->game_state());
+void Rules::dump_state(std::ostream& out) {
+  dump_game_state(out, *api_->game_state());
 }
