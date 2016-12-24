@@ -78,9 +78,6 @@ int GameState::resolve_mur() {
                                                       at.mur_used_stock,
                                                       df.mur_used_stock);
 
-  std::cout << "Att: " << at_loss << std::endl;
-  std::cout << "Def: " << df_loss << std::endl;
-
   at.mur_stock -= at_loss;
   df.mur_stock -= df_loss;
 
