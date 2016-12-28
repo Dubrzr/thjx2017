@@ -1,0 +1,8 @@
+rules: /usr/lib/libthjx2017.so
+verbose: 3
+clients:
+  - ./champion.so
+  - ./champion.so
+names:
+  - Player 1
+  - Player 2
