@@ -15,7 +15,7 @@
 
 class ActionTest;
 
-using nose_grid = std::array<std::array<bool, 1024>, 3>;
+using nose_grid = std::array<std::array<bool, NOSE_XMAX>, NOSE_YMAX>;
 
 enum played_game {
   MUR,

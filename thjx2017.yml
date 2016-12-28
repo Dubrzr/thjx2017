@@ -6,7 +6,14 @@ constant:
     cst_name: MUR_INITIAL_STOCK
     cst_val: 1024
     cst_comment: Initial stock given to each player at the start of a MUR game.
-
+  -
+    cst_name: NOSE_XMAX
+    cst_val: 1024
+    cst_comment: Grid XMAX
+  -
+    cst_name: NOSE_YMAX
+    cst_val: 3
+    cst_comment: Grid YMAX
 enum:
   -
     enum_name: mur_position

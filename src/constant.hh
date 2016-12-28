@@ -16,6 +16,12 @@
 /// Initial stock given to each player at the start of a MUR game.
 #define MUR_INITIAL_STOCK 1024
 
+/// Grid XMAX
+#define NOSE_XMAX 1024
+
+/// Grid YMAX
+#define NOSE_YMAX 3
+
 /// Position a player can defend during a phase
 typedef enum mur_position {
   POS_N,       /* <- N */
