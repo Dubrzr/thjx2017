@@ -90,6 +90,7 @@ int GameState::resolve_mur() {
     is_finished_ = true;
 
     auto points = squares_left(grid_);
+    std::cout << "NULL: " << points << std::endl;
     *at.score -= points;
     *df.score -= points;
 
@@ -116,8 +117,14 @@ void GameState::resolve_nose() {
 
   is_finished_ = true;
 
-  auto score = *p.score - (nose_squares_to_take_ - taken + 1);
+  auto score = 0;
+  if (taken >= nose_squares_to_take_)
+    score = *p.score - taken;
+  else
+    score = *p.score - (nose_squares_to_take_ - taken + 1);
+
   *p.score = score;
+  std::cout << "player lost: " << score << std::endl;
 }
 
 std::pair<int, int> mur_compute_stock_loss(mur_position ap, mur_position dp,
