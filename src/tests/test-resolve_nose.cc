@@ -48,7 +48,6 @@ TEST_F(ActionTest, ActionNose_end_forced) {
       g[i][j] = true;
 
   auto left = squares_left(g);
-  std::cout << "left: " << left << std::endl;
 
   ActionPlayNose action(0, 0, PLAYER_1);
   EXPECT_EQ(OK, action.check(st));
@@ -78,7 +77,6 @@ TEST_F(ActionTest, ActionNose_end_willfull) {
       g[i][j] = true;
 
   auto left = squares_left(g);
-  std::cout << "left: " << left << std::endl;
 
   ActionPlayNose action(0, 0, PLAYER_1);
   EXPECT_EQ(OK, action.check(st));
