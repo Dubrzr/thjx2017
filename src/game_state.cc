@@ -77,7 +77,7 @@ int GameState::resolve_mur() {
 
   // compute losses
   int at_loss, df_loss;
-  std::tie(at_loss, df_loss) = mur_compute_stock_loss(
+  std::tie(at_loss, df_loss) = mur_compute_stock_loss_(
       at.mur_pos, df.mur_pos, at.mur_used_stock, df.mur_used_stock);
 
   // update stocks
@@ -125,7 +125,7 @@ void GameState::resolve_nose() {
   *p.score = score;
 }
 
-std::pair<int, int> mur_compute_stock_loss(mur_position ap, mur_position dp,
+std::pair<int, int> mur_compute_stock_loss_(mur_position ap, mur_position dp,
                                            int k, int l) {
   kl_pair akl = attacker_losses[ap][dp];
   kl_pair dkl = defender_losses[ap][dp];
