@@ -8,8 +8,8 @@ Rules::Rules(const rules::Options opt)
     champ_dll_ = std::make_unique<utils::DLL>(opt.champion_lib);
 
     champ_game_init_ = champ_dll_->get<f_champ_game_init>("game_init");
-    champ_play_mur_ = champ_dll_->get<f_champ_play_mur>("play_mur");
-    champ_play_nose_ = champ_dll_->get<f_champ_play_nose>("play_nose");
+    champ_play_mur_ = champ_dll_->get<f_champ_play_mur>("mur_turn");
+    champ_play_nose_ = champ_dll_->get<f_champ_play_nose>("nose_turn");
     champ_game_end_ = champ_dll_->get<f_champ_game_end>("game_end");
   }
 
