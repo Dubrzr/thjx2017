@@ -36,9 +36,12 @@ GameState::GameState(rules::Players_sptr players)
 rules::GameState* GameState::copy() const { return new GameState(*this); }
 
 void GameState::init_mur() {
-  for (auto& pi : player_info_) {
+  for (auto& pi : player_info_)
     pi.second.mur_stock = MUR_INITIAL_STOCK;
+}
 
+void GameState::init_mur_turn() {
+  for (auto& pi : player_info_) {
     pi.second.mur_last_pos = pi.second.mur_pos;
     pi.second.mur_last_used_stock = pi.second.mur_used_stock;
     pi.second.nose_last_played_square = pi.second.nose_played_square;
@@ -62,7 +65,7 @@ int GameState::get_mur_loser() {
   if (at_mur <= 0)
     return p_[ATTACKER];
 
-  if (at_mur <= 0)
+  if (df_mur <= 0)
     return p_[DEFENDER];
 
   return -1;
@@ -96,7 +99,6 @@ int GameState::resolve_mur() {
   if (ret == -1)
     return ret;
 
-  set_current_played_game(NOSE);
   nose_squares_to_take_ = player_info_.at(opponent(ret)).mur_stock;
   nose_player_ = ret;
 
@@ -109,8 +111,10 @@ void GameState::resolve_nose() {
   auto& p = player_info_.at(nose_player_);
   auto pos_played = p.nose_played_square;
 
-  if ((pos_played.x | pos_played.y) == 0)
-    is_finished_ = true;
+  if ((pos_played.x | pos_played.y) != 0)
+    return;
+
+  is_finished_ = true;
 
   auto score = *p.score - (nose_squares_to_take_ - taken + 1);
   *p.score = score;

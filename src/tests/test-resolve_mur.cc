@@ -29,12 +29,10 @@ TEST_F(ActionTest, ActionMUR_continue) {
   EXPECT_EQ(-1, st->resolve_mur());
   EXPECT_EQ(p1_res, st->get_mur_stock(PLAYER_1));
   EXPECT_EQ(p2_res, st->get_mur_stock(PLAYER_2));
-
-  EXPECT_EQ(MUR, get_game_phase());
 }
 
-// Loose
-TEST_F(ActionTest, ActionMUR_resolve_looser) {
+// P1 Looses
+TEST_F(ActionTest, ActionMUR_resolve_looser_P1) {
   get_game_phase() = MUR;
 
   get_player_info(PLAYER_1).mur_stock = 30;
@@ -50,9 +48,35 @@ TEST_F(ActionTest, ActionMUR_resolve_looser) {
 
   EXPECT_EQ(static_cast<int>(PLAYER_1), st->resolve_mur());
   EXPECT_EQ(PLAYER_1, st->get_nose_player_id());
-  EXPECT_EQ(20, st->get_nose_squares_to_take());
 
-  EXPECT_EQ(NOSE, get_game_phase());
+  EXPECT_EQ(get_player_info(PLAYER_1).mur_stock, 30 - 8 * (30 + 30));
+  EXPECT_EQ(get_player_info(PLAYER_2).mur_stock, 50 - 30);
+
+  EXPECT_EQ(50 - 30, st->get_nose_squares_to_take());
+}
+
+// P2 Looses
+TEST_F(ActionTest, ActionMUR_resolve_looser_P2) {
+  get_game_phase() = MUR;
+
+  get_player_info(PLAYER_1).mur_stock = 50;
+  get_player_info(PLAYER_2).mur_stock = 30;
+
+  ActionPlayMur action1({POS_N}, 30, PLAYER_1);
+  ActionPlayMur action2({POS_S}, 30, PLAYER_2);
+
+  EXPECT_EQ(OK, action1.check(st));
+  EXPECT_EQ(OK, action2.check(st));
+  action1.apply_on(st);
+  action2.apply_on(st);
+
+  EXPECT_EQ(static_cast<int>(PLAYER_2), st->resolve_mur());
+  EXPECT_EQ(PLAYER_2, st->get_nose_player_id());
+
+  EXPECT_EQ(get_player_info(PLAYER_1).mur_stock, 50);
+  EXPECT_EQ(get_player_info(PLAYER_2).mur_stock, 30 - 8 * 30);
+
+  EXPECT_EQ(50, st->get_nose_squares_to_take());
 }
 
 // Both Loose

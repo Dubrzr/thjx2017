@@ -73,18 +73,29 @@ void Rules::start_of_round() {
   // We should not init NOSE since it keeps it's state during the whole game
   played_game game = api_->game_state()->get_current_played_game();
   if (game == MUR)
-    api_->game_state()->init_mur();
+    api_->game_state()->init_mur_turn();
 }
 
 void Rules::end_of_round() {
   // Solve the games when both players played
   played_game game = api_->game_state()->get_current_played_game();
   switch (game) {
-  case MUR:
-    nose_player_ = api_->game_state()->resolve_mur();
+  case MUR: {
+    // if looser is -1 then game state isn't change
+    // so we don't care about the absurd value
+    auto looser = api_->game_state()->resolve_mur();
+    nose_player_ = static_cast<unsigned>(looser);
+
+    if (looser == -1)
+      return;
+
+    api_->game_state()->set_current_played_game(NOSE);
     break;
+  }
   case NOSE:
     api_->game_state()->resolve_nose();
+    api_->game_state()->set_current_played_game(MUR);
+    api_->game_state()->init_mur();
     break;
   }
 }
