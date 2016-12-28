@@ -99,6 +99,9 @@ int Api::nose_remaining_squares() {
   return game_state()->get_remaining_square();
 }
 
+int Api::nose_squares_taken(int x, int y) {
+  return squares_taken(game_state()->get_nose_grid(), {x, y});
+}
 /// Minimum number of squares to take. Returns -1 if the MUR game of the current
 /// turn is not over.
 int Api::nose_squares_to_take() {

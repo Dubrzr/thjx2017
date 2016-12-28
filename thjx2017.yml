@@ -141,8 +141,13 @@ function:
                   Returns -1 if the MUR game of the current turn is not over."
     fct_ret_type: int
     fct_arg: []
-
-# TODO
+  -
+    fct_name: nose_squares_taken
+    fct_summary: "count number of squares taken for a specific move"
+    fct_ret_type: int
+    fct_arg:
+      - [x, int, "Index of the row containing the chosen square."]
+      - [y, int, "Index of the column containing the chosen square."]
 
 user_function:
   -

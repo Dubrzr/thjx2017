@@ -86,6 +86,9 @@ public:
   /// Number of remaining squares in the NOSE game.
   int nose_remaining_squares();
 
+  /// count number of squares taken for a specific move
+  int nose_squares_taken(int x, int y);
+
   /// Minimum number of squares to take. Returns -1 if the MUR game of the
   /// current turn is not over.
   int nose_squares_to_take();

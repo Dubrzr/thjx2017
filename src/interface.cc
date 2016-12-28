@@ -217,6 +217,11 @@ extern "C" int api_nose_squares_to_take() {
   return api->nose_squares_to_take();
 }
 
+/// count number of squares taken for a specific move
+extern "C" int api_nose_squares_taken(int x, int y) {
+  return api->nose_squares_taken(x, y);
+}
+
 /// Affiche le contenu d'une valeur de type mur_position
 std::ostream& operator<<(std::ostream& os, mur_position v) {
   switch (v) {
