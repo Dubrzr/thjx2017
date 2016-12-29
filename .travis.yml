@@ -1,0 +1,30 @@
+dist: trusty
+sudo: required
+
+language: cpp
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install gcc python3 libzmq3-dev libzmqpp-dev libgflags-dev libgtest-dev ruby python3-yaml
+
+install:
+  - mkdir thjx2017
+  - mv * ./thjx2017 || true
+  - ls
+  - git clone https://bitbucket.org/prologin/stechec2
+  - mv stechec2/* ./
+  - mv thjx2017 ./games/
+  - CXX=g++-5
+
+script:
+  - ./waf.py configure --with-games=thjx2017 --prefix=/usr
+  - ./waf.py build --checkall
+
+addons:
+    apt:
+        sources:
+            - ubuntu-toolchain-r-test
+        packages:
+            - g++-5
+            - gcc-5
+

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Dubrzr/thjx2017.svg?branch=master)](https://travis-ci.org/Dubrzr/thjx2017)
+
 User manual for the EPITA thjx2017 project. This manual describes how to
 generate the user environment, build the tools to do it and compile your
 champions to play the NOSE and MUR game.
