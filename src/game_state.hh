@@ -44,13 +44,16 @@ struct player_info {
 int squares_left(const nose_grid& g);
 int squares_taken(const nose_grid& g, const nose_position& p);
 void fill_grid(nose_grid& grid, const nose_position& p);
-std::pair<int, int> mur_compute_stock_loss(mur_position attacker_pos,
-                                           mur_position defender_pos,
-                                           int attacker_stock,
-                                           int defender_stock);
+
+std::pair<int, int> mur_compute_stock_loss_(mur_position attacker_pos,
+                                            mur_position defender_pos,
+                                            int attacker_stock,
+                                            int defender_stock);
 
 class GameState : public rules::GameState {
 public:
+  // Note: when initializing a gamestate, player 1 is given the DEFENDER MUR
+  // role while player 2 is given the ATTACKER MUR role
   GameState(rules::Players_sptr players);
   virtual rules::GameState* copy() const;
 
