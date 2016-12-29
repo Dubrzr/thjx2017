@@ -4,7 +4,7 @@ champions to play the NOSE and MUR game.
 
 # Installation
 
-## Dépendances
+## Dependency
 This project depends on the ``stechec2`` project, therefore you will need to
 clone, configure, build and install it.
 
