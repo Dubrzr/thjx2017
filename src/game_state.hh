@@ -52,6 +52,8 @@ std::pair<int, int> mur_compute_stock_loss_(mur_position attacker_pos,
 
 class GameState : public rules::GameState {
 public:
+  // Note: when initializing a gamestate, player 1 is given the DEFENDER MUR
+  // role while player 2 is given the ATTACKER MUR role
   GameState(rules::Players_sptr players);
   virtual rules::GameState* copy() const;
 
