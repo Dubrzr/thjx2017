@@ -1,6 +1,7 @@
 #include "../api.hh"
-#include "test-helpers.hh"
 #include "../constant.hh"
+
+#include "test-helpers.hh"
 
 TEST_F(ApiTest, Api_RetrievePlayerIdentifiers) {
   EXPECT_EQ(PLAYER_ID_1, players[0].api->me());

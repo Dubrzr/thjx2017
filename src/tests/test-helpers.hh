@@ -48,20 +48,20 @@ class ApiTest : public ::testing::Test
 protected:
   virtual void SetUp()
   {
-	// Players values are not 0 and 1, because that would be too simple
-	utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
-	auto players_ptr = make_test_players(PLAYER_ID_1, PLAYER_ID_2);
-	st = new GameState(players_ptr);
-	players[0].id = PLAYER_ID_1;
-	players[0].api = new Api(st, players_ptr->players[0]);
-	players[1].id = PLAYER_ID_2;
-	players[1].api = new Api(st, players_ptr->players[1]);
+    // Players values are not 0 and 1, because that would be too simple
+    utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
+    auto players_ptr = make_test_players(PLAYER_ID_1, PLAYER_ID_2);
+    st = new GameState(players_ptr);
+    players[0].id = PLAYER_ID_1;
+    players[0].api = new Api(st, players_ptr->players[0]);
+    players[1].id = PLAYER_ID_2;
+    players[1].api = new Api(st, players_ptr->players[1]);
   }
 
   virtual void TearDown()
   {
-	delete players[0].api;
-	delete players[1].api;
+    delete players[0].api;
+    delete players[1].api;
     delete st;
   }
 
@@ -72,8 +72,8 @@ protected:
 
   struct Player
   {
-	int id;
-	Api* api;
+    int id;
+    Api* api;
   };
   std::array<Player, 2> players;
 };
