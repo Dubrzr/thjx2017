@@ -5,7 +5,6 @@
 
 #include <array>
 #include <memory>
-#include <random>
 #include <unordered_map>
 
 #include <rules/game-state.hh>
