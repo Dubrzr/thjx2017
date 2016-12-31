@@ -11,6 +11,7 @@
 GameState::GameState(rules::Players_sptr players)
     : rules::GameState(), players_(players), nose_player_(0),
       nose_squares_to_take_(0), is_finished_(false) {
+
   for (size_t i = 0; i < grid_.size(); ++i)
     std::fill(grid_[i].begin(), grid_[i].end(), true);
 
@@ -20,9 +21,9 @@ GameState::GameState(rules::Players_sptr players)
       continue;
 
     p->score = 0;
-    player_info_[p->id] = {MUR_INITIAL_STOCK, ATTACKER, POS_INVALID,
-                           POS_INVALID,       0,        0,
-                           {-1, -1},          {-1, -1}, &p->score};
+    player_info_[p->id] = {
+        MUR_INITIAL_STOCK, ATTACKER, POS_INVALID, POS_INVALID, 0, 0,
+        {-1, -1},          {-1, -1}, &p->score,   false};
 
     p_[pi++] = p->id;
   }
@@ -75,6 +76,11 @@ int GameState::resolve_mur() {
   auto& at = player_info_.at(p_[ATTACKER]); // get attacker
   auto& df = player_info_.at(p_[DEFENDER]); // get defender
 
+  if (at.timed_out || df.timed_out) {
+    is_finished_ = true;
+    return -1;
+  }
+
   // compute losses
   int at_loss, df_loss;
   std::tie(at_loss, df_loss) = mur_compute_stock_loss_(
@@ -111,6 +117,11 @@ void GameState::resolve_nose() {
   auto& p = player_info_.at(nose_player_);
   auto pos_played = p.nose_played_square;
 
+  if (p.timed_out) {
+    is_finished_ = true;
+    return;
+  }
+
   if ((pos_played.x | pos_played.y) != 0)
     return;
 
@@ -137,33 +148,11 @@ std::pair<int, int> mur_compute_stock_loss_(mur_position ap, mur_position dp,
 }
 
 void GameState::auto_mur(unsigned player_id) {
-  auto& p = player_info_[player_id];
-
-  if (p.mur_pos != POS_INVALID && p.mur_used_stock != -1)
-    return;
-
-  p.mur_pos = POS_INVALID;
-  p.mur_used_stock = -1;
-
-  ActionPlayMur a{POS_N, p.mur_stock, static_cast<int>(player_id)};
-  a.check(this);
-  a.apply_on(this);
+  player_info_.at(player_id).timed_out = true;
 }
 
 void GameState::auto_nose(unsigned player_id) {
-  auto& p = player_info_[player_id];
-
-  if (player_id != nose_player_)
-    return;
-
-  if (p.nose_played_square.x != -1 && p.nose_played_square.y != -1)
-    return;
-
-  p.nose_last_played_square = {-1, -1};
-
-  ActionPlayNose a{0, 0, static_cast<int>(player_id)};
-  a.check(this);
-  a.apply_on(this);
+  player_info_.at(player_id).timed_out = true;
 }
 
 int GameState::fill_squares() {

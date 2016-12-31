@@ -167,8 +167,7 @@ user_function:
     fct_name: mur_turn
     fct_summary: "Function called during a phase (MUR turn).
                   If you never call the ``play_mur`` function or if your call
-                  takes too long, the worst possible move you could play (given
-                  the current game state) will be automatically played for you."
+                  takes too long you will be automatically timed out."
     fct_ret_type: void
     fct_arg: []
   -
@@ -180,8 +179,7 @@ user_function:
     fct_name: nose_turn
     fct_summary: "Function called during the NOSE turn.
                   If you never call the ``play_nose`` function or if your call
-                  takes too long, the worst possible move you could play (given
-                  the current game state) will be automatically played for you."
+                  take too long you will be automatically timed out."
     fct_ret_type: void
     fct_arg: []
   -

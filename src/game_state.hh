@@ -38,6 +38,7 @@ struct player_info {
   nose_position nose_last_played_square;
 
   int* score;
+  bool timed_out;
 };
 
 int squares_left(const nose_grid& g);
@@ -129,6 +130,10 @@ public:
 
   // general
   // -------
+
+  bool get_timed_out(unsigned player) const {
+    return player_info_.at(player).timed_out;
+  }
 
   // called to initialize the MUR and NOSE game
   void init_mur();

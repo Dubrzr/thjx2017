@@ -54,6 +54,7 @@ static void dump_players(std::ostream& ss, const GameState& st) {
        << "\"mur_used_stock\": " << st.get_mur_used_stock(id) << ","
        << "\"mur_position\": " << st.get_mur_position(id) << ","
        << "\"nose_played_square\": [" << np.x << ", " << np.y << "],"
+       << "\"timed_out\": " << st.get_timed_out(id) << ","
        << "\"score\": " << players[i]->score << "}";
   }
   ss << "}";
