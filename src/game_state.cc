@@ -22,7 +22,7 @@ GameState::GameState(rules::Players_sptr players)
 
     p->score = 0;
     player_info_[p->id] = {
-        MUR_INITIAL_STOCK, ATTACKER, POS_INVALID, POS_INVALID, 0, 0,
+        MUR_INITIAL_STOCK, ATTACKER, POS_INVALID, POS_INVALID, -1, -1,
         {-1, -1},          {-1, -1}, &p->score,   false};
 
     p_[pi++] = p->id;
@@ -47,7 +47,7 @@ void GameState::init_mur_turn() {
     pi.second.mur_last_used_stock = pi.second.mur_used_stock;
     pi.second.nose_last_played_square = pi.second.nose_played_square;
 
-    pi.second.mur_used_stock = 0;
+    pi.second.mur_used_stock = -1;
     pi.second.mur_pos = POS_INVALID;
     pi.second.nose_played_square = {-1, -1};
   }
