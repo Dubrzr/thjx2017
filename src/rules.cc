@@ -81,7 +81,7 @@ void Rules::end_of_round() {
   played_game game = api_->game_state()->get_current_played_game();
   switch (game) {
   case MUR: {
-    // if looser is -1 then game state isn't change
+    // if looser is -1 then game state isn't changed
     // so we don't care about the absurd value
     auto looser = api_->game_state()->resolve_mur();
     nose_player_ = static_cast<unsigned>(looser);
