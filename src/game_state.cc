@@ -137,7 +137,7 @@ void GameState::resolve_nose() {
 }
 
 std::pair<int, int> mur_compute_stock_loss_(mur_position ap, mur_position dp,
-                                           int k, int l) {
+                                            int k, int l) {
   kl_pair akl = attacker_losses[ap][dp];
   kl_pair dkl = defender_losses[ap][dp];
 
@@ -148,10 +148,23 @@ std::pair<int, int> mur_compute_stock_loss_(mur_position ap, mur_position dp,
 }
 
 void GameState::auto_mur(unsigned player_id) {
+  auto& p = player_info_[player_id];
+
+  if (p.mur_pos != POS_INVALID && p.mur_used_stock != -1)
+    return;
+
   player_info_.at(player_id).timed_out = true;
 }
 
 void GameState::auto_nose(unsigned player_id) {
+  auto& p = player_info_[player_id];
+
+  if (player_id != nose_player_)
+    return;
+
+  if (p.nose_played_square.x != -1 && p.nose_played_square.y != -1)
+    return;
+
   player_info_.at(player_id).timed_out = true;
 }
 
