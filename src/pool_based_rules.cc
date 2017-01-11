@@ -71,6 +71,40 @@ end:
   at_server_end(msgr);
 }
 
+void PoolBasedRules::player_loop(ClientMessenger_sptr msgr) {
+  uint32_t last_player_id;
+  msgr->pull_id(&last_player_id);
+
+  at_start();
+  at_player_start(msgr);
+  start_of_round();
+
+  while (!is_finished()) {
+    uint32_t playing_id;
+
+    bool me = !msgr->wait_for_turn(opt_.player->id, &playing_id);
+    Actions* actions = run_player(msgr, playing_id, me);
+    apply_actions(actions, !me);
+
+    end_of_player_turn(playing_id);
+    end_of_turn(playing_id);
+
+    if (playing_id == last_player_id) {
+      CDEBUG("End of round!");
+      end_of_round();
+
+      if (!is_finished()) {
+        msgr->pull_id(&last_player_id);
+        start_of_round();
+      }
+    }
+  }
+
+  CDEBUG("End of game!");
+  at_end();
+  at_player_end(msgr);
+}
+
 void PoolBasedRules::apply_actions(Actions* actions, bool apply) {
   if (!apply)
     return;
@@ -98,6 +132,33 @@ Actions* PoolBasedRules::run_player(ServerMessenger_sptr msgr, uint32_t id) {
 
   SDEBUG("Acknowledging...");
   msgr->ack();
+
+  return actions;
+}
+
+Actions* PoolBasedRules::run_player(ClientMessenger_sptr msgr, uint32_t id,
+                                    bool me) {
+  start_of_player_turn(id);
+  start_of_turn(id);
+
+  CDEBUG("Turn for player %d", id);
+
+  get_actions()->clear();
+
+  if (me)
+    player_turn();
+
+  Actions* actions = get_actions();
+
+  if (me) {
+    CDEBUG("Sending %u actions...", actions->size());
+    msgr->send_actions(*actions);
+    CDEBUG("Waiting for acknowledgement...");
+    msgr->wait_for_ack();
+  }
+
+  CDEBUG("Getting actions...");
+  msgr->pull_actions(actions);
 
   return actions;
 }
