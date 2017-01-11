@@ -62,16 +62,6 @@ static void dump_players(std::ostream& ss, const GameState& st) {
 
 void dump_game_state(std::ostream& out, const GameState& st) {
 
-  auto& players = st.get_players()->players;
-  if (st.get_current_played_game() == MUR)
-    for (unsigned i = 0; i < players.size(); ++i)
-      if (st.get_mur_used_stock(players[i]->id) == -1)
-        return;
-
-  if (st.get_current_played_game() == NOSE)
-    if (st.get_nose_played_square(st.get_nose_player_id()).x == -1)
-      return;
-
   out << "{";
 
   out << "\"game\": ";
