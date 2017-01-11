@@ -97,3 +97,9 @@ You will be able (in the near future) to test your code on our website.
 To send us your code as a tarball, run the following command:
 
     make tar
+
+# Read the API !
+
+Read the documentation of the different API functions in the file
+[thjx2017.yml](./thjx2017.yml) or in the generated API files, headers 
+or source.
