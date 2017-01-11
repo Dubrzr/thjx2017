@@ -135,13 +135,13 @@ public:
     return player_info_.at(player).timed_out;
   }
 
+  void set_timed_out(unsigned player) {
+    player_info_.at(player).timed_out = true;
+  }
+
   // called to initialize the MUR and NOSE game
   void init_mur();
   void init_mur_turn();
-
-  // called to set a move for players who timed out
-  void auto_mur(unsigned player_id);
-  void auto_nose(unsigned player_id);
 
   int resolve_mur(); // returns -1 or the ID of the player who lost
   void resolve_nose();

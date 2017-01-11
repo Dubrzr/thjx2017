@@ -76,11 +76,6 @@ int GameState::resolve_mur() {
   auto& at = player_info_.at(p_[ATTACKER]); // get attacker
   auto& df = player_info_.at(p_[DEFENDER]); // get defender
 
-  if (at.timed_out || df.timed_out) {
-    is_finished_ = true;
-    return -1;
-  }
-
   // compute losses
   int at_loss, df_loss;
   std::tie(at_loss, df_loss) = mur_compute_stock_loss_(
@@ -117,11 +112,6 @@ void GameState::resolve_nose() {
   auto& p = player_info_.at(nose_player_);
   auto pos_played = p.nose_played_square;
 
-  if (p.timed_out) {
-    is_finished_ = true;
-    return;
-  }
-
   if ((pos_played.x | pos_played.y) != 0)
     return;
 
@@ -145,27 +135,6 @@ std::pair<int, int> mur_compute_stock_loss_(mur_position ap, mur_position dp,
   auto dl = k * dkl.k + l * dkl.l;
 
   return std::make_pair<int, int>(al, dl);
-}
-
-void GameState::auto_mur(unsigned player_id) {
-  auto& p = player_info_[player_id];
-
-  if (p.mur_pos != POS_INVALID && p.mur_used_stock != -1)
-    return;
-
-  player_info_.at(player_id).timed_out = true;
-}
-
-void GameState::auto_nose(unsigned player_id) {
-  auto& p = player_info_[player_id];
-
-  if (player_id != nose_player_)
-    return;
-
-  if (p.nose_played_square.x != -1 && p.nose_played_square.y != -1)
-    return;
-
-  player_info_.at(player_id).timed_out = true;
 }
 
 int GameState::fill_squares() {
