@@ -43,6 +43,7 @@ void GameState::init_mur() {
 
 void GameState::init_mur_turn() {
   DEBUG("INIT MUR");
+  nose_player_ = 0;
   for (auto& pi : player_info_) {
     pi.second.mur_last_pos = pi.second.mur_pos;
     pi.second.mur_last_used_stock = pi.second.mur_used_stock;
