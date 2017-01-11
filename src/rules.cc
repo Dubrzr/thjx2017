@@ -2,8 +2,10 @@
 #include "actions.hh"
 #include "dumper.hh"
 
+#define PDEBUG_GAME(X) PDEBUG(X " %s", (game == MUR ? "MUR" : "NOSE"))
+
 Rules::Rules(const rules::Options opt)
-    : TurnBasedRules(opt), nose_player_(0), sandbox_(opt.time) {
+    : PoolBasedRules(opt), nose_player_(0), sandbox_(opt.time) {
   if (!opt.champion_lib.empty()) {
     champ_dll_ = std::make_unique<utils::DLL>(opt.champion_lib);
 
@@ -43,22 +45,34 @@ void Rules::apply_action(const rules::IAction_sptr& action) {
   api_->game_state_set(action->apply(api_->game_state()));
 }
 
-bool Rules::is_finished() { return api_->game_state()->is_finished(); }
+bool Rules::is_finished() {
+  auto state = api_->game_state();
+  auto timeout = false;
 
-void Rules::player_turn() {
-  // Execute the correct game for the correct player
-  played_game game = api_->game_state()->get_current_played_game();
-  switch (game) {
-  case MUR:
-    sandbox_.execute(champ_play_mur_);
-    break;
-  case NOSE:
-    if (nose_player_ != api_->player()->id)
-      return;
+  for (auto& player : players_->players)
+    timeout |= state->get_timed_out(player->id);
 
-    sandbox_.execute(champ_play_nose_);
-    break;
+  return state->is_finished() || timeout;
+}
+
+void Rules::start_of_round() {
+  auto state = api_->game_state();
+  played_game game = state->get_current_played_game();
+
+  PDEBUG_GAME("Starting");
+
+  if (game == NOSE) {
+    for (auto& player : players_->players)
+      if (player->id == nose_player_)
+        add_player_to_pool(player);
+
+    return;
   }
+
+  state->init_mur_turn();
+
+  for (auto& player : players_->players)
+    add_player_to_pool(player);
 }
 
 void Rules::at_player_start(rules::ClientMessenger_sptr) {
@@ -69,50 +83,71 @@ void Rules::at_player_end(rules::ClientMessenger_sptr) {
   sandbox_.execute(champ_game_end_);
 }
 
-void Rules::start_of_round() {
-  // We should not init NOSE since it keeps it's state during the whole game
-  played_game game = api_->game_state()->get_current_played_game();
-  if (game == MUR)
-    api_->game_state()->init_mur_turn();
+// This function will never be called in the case NOSE game and
+// non-NOSE player
+void Rules::player_turn() {
+  auto state = api_->game_state();
+  played_game game = state->get_current_played_game();
+  PDEBUG_GAME("Starting");
+
+  switch (game) {
+  case MUR:
+    sandbox_.execute(champ_play_mur_);
+    break;
+  case NOSE:
+    sandbox_.execute(champ_play_nose_);
+    break;
+  }
 }
 
+// Solve the games when both players played
 void Rules::end_of_round() {
-  // Solve the games when both players played
-  played_game game = api_->game_state()->get_current_played_game();
+  if (is_finished())
+    return;
+
+  auto state = api_->game_state();
+  played_game game = state->get_current_played_game();
+
   switch (game) {
   case MUR: {
+
     // if looser is -1 then game state isn't changed
     // so we don't care about the absurd value
-    auto looser = api_->game_state()->resolve_mur();
+    auto looser = state->resolve_mur();
     nose_player_ = static_cast<unsigned>(looser);
 
     if (looser == -1)
       return;
 
-    api_->game_state()->set_current_played_game(NOSE);
+    state->set_current_played_game(NOSE);
     break;
   }
   case NOSE:
-    api_->game_state()->resolve_nose();
-    api_->game_state()->set_current_played_game(MUR);
-    api_->game_state()->init_mur();
+    state->resolve_nose();
+    state->set_current_played_game(MUR);
+    state->init_mur();
     break;
   }
+
+  PDEBUG_GAME("Resolved");
 }
 
-void Rules::end_of_player_turn(unsigned player_id) {
-  // Auto play if player did not return a correct action
-  played_game game = api_->game_state()->get_current_played_game();
-  switch (game) {
-  case MUR:
-    api_->game_state()->auto_mur(player_id);
-    break;
-  case NOSE:
-    api_->game_state()->auto_nose(player_id);
-    break;
-  }
+void Rules::end_of_player_turn(unsigned player) {
+  auto state = api_->game_state();
+  played_game g = state->get_current_played_game();
+
+  if (g == MUR && state->get_mur_used_stock(player) == -1)
+    handle_timeout(player);
+  else if (g == NOSE && state->get_nose_played_square(player).x == -1)
+    handle_timeout(player);
 }
 
 void Rules::dump_state(std::ostream& out) {
+  SDEBUG("Dumping state!");
   dump_game_state(out, *api_->game_state());
+}
+
+void Rules::handle_timeout(uint32_t player) {
+  PDEBUG("Timeout for player %d", player);
+  api_->game_state()->set_timed_out(player);
 }

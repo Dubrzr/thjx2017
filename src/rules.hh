@@ -13,13 +13,14 @@
 #include <utils/sandbox.hh>
 
 #include "api.hh"
+#include "pool_based_rules.hh"
 
 typedef void (*f_champ_game_init)();
 typedef void (*f_champ_play_mur)();
 typedef void (*f_champ_play_nose)();
 typedef void (*f_champ_game_end)();
 
-class Rules : public rules::TurnBasedRules {
+class Rules : public PoolBasedRules {
 public:
   explicit Rules(const rules::Options opt);
   virtual ~Rules() {}
@@ -40,6 +41,8 @@ protected:
   void end_of_player_turn(unsigned player_id);
 
   void dump_state(std::ostream& out);
+
+  void handle_timeout(uint32_t player);
 
   f_champ_game_init champ_game_init_;
   f_champ_play_mur champ_play_mur_;
