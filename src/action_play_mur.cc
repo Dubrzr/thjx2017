@@ -20,6 +20,9 @@ int ActionPlayMur::check(const GameState* st) const {
 }
 
 void ActionPlayMur::apply_on(GameState* st) const {
+  DEBUG("[ACTION] Spending %d stock for player %d with stock %d", amount_,
+        player_id_, st->get_mur_stock(player_id_));
+
   st->set_mur_used_stock(player_id_, amount_);
   st->set_mur_position(player_id_, position_);
 }

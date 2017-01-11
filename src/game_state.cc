@@ -42,6 +42,7 @@ void GameState::init_mur() {
 }
 
 void GameState::init_mur_turn() {
+  DEBUG("INIT MUR");
   for (auto& pi : player_info_) {
     pi.second.mur_last_pos = pi.second.mur_pos;
     pi.second.mur_last_used_stock = pi.second.mur_used_stock;
@@ -86,6 +87,10 @@ int GameState::resolve_mur() {
   df.mur_stock -= df_loss;
 
   int ret = get_mur_loser();
+  DEBUG("[GAMESTATE][RESOLVE] used: (%d, %d), losses: (%d, %d), stocks: (%d, "
+        "%d), ret: %d",
+        at.mur_used_stock, df.mur_used_stock, at_loss, df_loss, at.mur_stock,
+        df.mur_stock, ret);
 
   if (at.mur_stock <= 0 && df.mur_stock <= 0) {
     is_finished_ = true;
