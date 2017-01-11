@@ -33,6 +33,7 @@ action_error Api::play_mur(mur_position position, int amount) {
 
   actions_.add(action);
   game_state_set(action->apply(game_state_));
+  DEBUG("[ME-%d] used stock: %d", me(), game_state()->get_mur_used_stock(me()));
   return OK;
 }
 
@@ -73,10 +74,12 @@ int Api::mur_compute_stock_loss(mur_position your_position,
   mur_role your_role = mur_role_of_player(player_->id);
   if (your_role == ATTACKER)
     return mur_compute_stock_loss_(your_position, their_position, your_amount,
-                                   their_amount).first;
+                                   their_amount)
+        .first;
   else
     return mur_compute_stock_loss_(their_position, your_position, their_amount,
-                                   your_amount).second;
+                                   your_amount)
+        .second;
 }
 
 /// Last MUR position played by the specified player.
