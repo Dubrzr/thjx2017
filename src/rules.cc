@@ -122,6 +122,10 @@ void Rules::end_of_round() {
   }
   case NOSE:
     state->resolve_nose();
+
+    if (is_finished())
+      break;
+
     state->set_current_played_game(MUR);
     state->init_mur();
     break;

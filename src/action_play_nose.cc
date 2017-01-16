@@ -27,6 +27,8 @@ int ActionPlayNose::check(const GameState* st) const {
 }
 
 void ActionPlayNose::apply_on(GameState* st) const {
+  DEBUG("[ACTION] Playing square (%d, %d) player %d", x_, y_, player_id_);
+
   st->set_nose_played_square(player_id_, {x_, y_});
 }
 

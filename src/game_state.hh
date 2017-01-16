@@ -117,6 +117,7 @@ public:
   }
 
   void set_nose_played_square(unsigned player, nose_position pos) {
+    DEBUG("[SET] (%d, %d) for player %d", pos.x, pos.y, player);
     player_info_.at(player).nose_played_square = pos;
   }
 
