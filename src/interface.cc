@@ -265,7 +265,7 @@ std::ostream& operator<<(std::ostream& os, mur_position v) {
   }
   return os;
 }
-extern "C" void api_afficher_mur_position(mur_position v) {
+extern "C" void api_print_mur_position(mur_position v) {
   std::cerr << v << std::endl;
 }
 
@@ -281,7 +281,7 @@ std::ostream& operator<<(std::ostream& os, mur_role v) {
   }
   return os;
 }
-extern "C" void api_afficher_mur_role(mur_role v) {
+extern "C" void api_print_mur_role(mur_role v) {
   std::cerr << v << std::endl;
 }
 
@@ -312,7 +312,7 @@ std::ostream& operator<<(std::ostream& os, action_error v) {
   }
   return os;
 }
-extern "C" void api_afficher_action_error(action_error v) {
+extern "C" void api_print_action_error(action_error v) {
   std::cerr << v << std::endl;
 }
 
@@ -327,6 +327,6 @@ std::ostream& operator<<(std::ostream& os, nose_position v) {
   os << " }";
   return os;
 }
-extern "C" void api_afficher_nose_position(nose_position v) {
+extern "C" void api_print_nose_position(nose_position v) {
   std::cerr << v << std::endl;
 }

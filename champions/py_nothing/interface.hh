@@ -86,16 +86,16 @@ int api_nose_remaining_squares();
 int api_nose_squares_to_take();
 
 /// Affiche le contenu d'une valeur de type mur_position
-void api_afficher_mur_position(mur_position v);
+void api_print_mur_position(mur_position v);
 
 /// Affiche le contenu d'une valeur de type mur_role
-void api_afficher_mur_role(mur_role v);
+void api_print_mur_role(mur_role v);
 
 /// Affiche le contenu d'une valeur de type action_error
-void api_afficher_action_error(action_error v);
+void api_print_action_error(action_error v);
 
 /// Affiche le contenu d'une valeur de type nose_position
-void api_afficher_nose_position(nose_position v);
+void api_print_nose_position(nose_position v);
 }
 
 #endif // !INTERFACE_HH_

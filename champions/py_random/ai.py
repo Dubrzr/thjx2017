@@ -8,7 +8,7 @@ from random import randint
 
 # Function called at the start of the game. You can use it to initialize your data structures.
 def game_init():
-    afficher_mur_role(mur_role_of_player(me()))
+    print_mur_role(mur_role_of_player(me()))
     pass
 
 # Function called during a phase (MUR turn). If you never call the ``play_mur`` function, you will defend or attack a random position with a random portion of your remaining stock.
