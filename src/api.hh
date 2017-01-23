@@ -69,10 +69,10 @@ public:
   /// Current amount of stock remaining for the specified player.
   int mur_stock(int player);
 
-  /// Amount of stock lost considering both players' moves.
-  int mur_compute_stock_loss(mur_position your_position,
-                             mur_position their_position, int your_amount,
-                             int their_amount);
+  /// Amount of stock lost considering the move of the attacker and defender.
+  mur_losses mur_compute_stock_loss(mur_position attacker,
+                                    mur_position defender,
+                                    int atk_amount, int dfd_amount);
 
   /// Last MUR position played by the specified player.
   mur_position mur_last_pos(int player);

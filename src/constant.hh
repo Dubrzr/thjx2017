@@ -54,4 +54,11 @@ typedef struct nose_position {
   int y; /* <- y coordinate (column index) */
 } nose_position;
 
+
+/// losses of a game of NOSE for both roles.
+typedef struct mur_losses {
+  int attacker; /* <- The amount lost by the attacker */
+  int defender; /* <- The amount lost by the attacker */
+} mur_losses;
+
 #endif // !CONSTANT_HH_

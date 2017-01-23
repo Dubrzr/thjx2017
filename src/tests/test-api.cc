@@ -18,13 +18,12 @@ TEST_F(ApiTest, Api_MUR_RoleOfPlayer) {
 }
 
 TEST_F(ApiTest, Api_MUR_ComputeStockLoss) {
-  int stock_loss;
+  mur_losses stock_loss;
   stock_loss = players[0].api->mur_compute_stock_loss(POS_N, POS_N, 42, 57);
-  EXPECT_EQ(stock_loss, 0);
-  stock_loss = players[1].api->mur_compute_stock_loss(POS_N, POS_N, 57, 42);
-  EXPECT_EQ(stock_loss, 2 * (57 + 42));
+  EXPECT_EQ(stock_loss.attacker, 2 * (57 + 42));
+  EXPECT_EQ(stock_loss.defender, 0);
+
   stock_loss = players[0].api->mur_compute_stock_loss(POS_N, POS_O, 42, 57);
-  EXPECT_EQ(stock_loss, 42);
-  stock_loss = players[1].api->mur_compute_stock_loss(POS_N, POS_O, 57, 42);
-  EXPECT_EQ(stock_loss, 42);
+  EXPECT_EQ(stock_loss.attacker, 57);
+  EXPECT_EQ(stock_loss.defender, 42);
 }

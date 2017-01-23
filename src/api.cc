@@ -68,18 +68,12 @@ mur_role Api::mur_role_of_player(int player) {
 int Api::mur_stock(int player) { return game_state()->get_mur_stock(player); }
 
 /// Amount of stock lost considering both players' moves.
-int Api::mur_compute_stock_loss(mur_position your_position,
-                                mur_position their_position, int your_amount,
-                                int their_amount) {
-  mur_role your_role = mur_role_of_player(player_->id);
-  if (your_role == ATTACKER)
-    return mur_compute_stock_loss_(your_position, their_position, your_amount,
-                                   their_amount)
-        .first;
-  else
-    return mur_compute_stock_loss_(their_position, your_position, their_amount,
-                                   your_amount)
-        .second;
+mur_losses Api::mur_compute_stock_loss(mur_position attacker,
+                                mur_position defender, int atk_amount,
+                                int dfd_amount) {
+  auto losses = mur_compute_stock_loss_(attacker, defender, atk_amount, dfd_amount);
+
+  return {losses.first, losses.second};
 }
 
 /// Last MUR position played by the specified player.

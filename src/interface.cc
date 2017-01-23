@@ -156,6 +156,28 @@ std::string convert_to_string(std::vector<nose_position> in) {
     return "[]";
   }
 }
+
+std::string convert_to_string(mur_losses in){
+  std::string defender = convert_to_string(in.defender);
+  std::string attacker = convert_to_string(in.attacker);
+  std::string out = "{";
+  out += "defender:" + defender;
+  out += ", ";
+  out += "attacker:" + attacker;
+  return out + "}";
+}
+
+std::string convert_to_string(std::vector<mur_losses> in){
+  if (in.size()){
+    std::string s = "[" + convert_to_string(in[0]);
+    for (int i = 1, l = in.size(); i < l; i++){
+      s = s + ", " + convert_to_string(in[i]);
+    }
+    return s + "]";
+  }else{
+    return "[]";
+  }
+}
 /// Attack or Defend a position with a given amount of stock.
 extern "C" action_error api_play_mur(mur_position position, int amount) {
   return api->play_mur(position, amount);
@@ -184,11 +206,11 @@ extern "C" mur_role api_mur_role_of_player(int player) {
 extern "C" int api_mur_stock(int player) { return api->mur_stock(player); }
 
 /// Amount of stock lost considering both players' moves.
-extern "C" int api_mur_compute_stock_loss(mur_position your_position,
-                                          mur_position their_position,
-                                          int your_amount, int their_amount) {
-  return api->mur_compute_stock_loss(your_position, their_position, your_amount,
-                                     their_amount);
+extern "C" mur_losses api_mur_compute_stock_loss(mur_position attacker,
+                                          mur_position defender,
+                                          int atk_amount, int dfd_amount) {
+  return api->mur_compute_stock_loss(attacker, defender, atk_amount,
+                                     dfd_amount);
 }
 
 /// Last MUR position played by the specified player.
