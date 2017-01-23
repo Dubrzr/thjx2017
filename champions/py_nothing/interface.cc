@@ -503,7 +503,7 @@ static void _init_python() {
   Py_Initialize();
   PySys_SetArgvEx(1, argv, 0);
 
-  champ_module = _import_module("prologin");
+  champ_module = _import_module("ai");
   py_module = _import_module("api");
 }
 

@@ -3,7 +3,7 @@
 lib_TARGETS = champion
 
 # Tu peux rajouter des fichiers source ici
-champion-dists = prologin.py
+champion-dists = ai.py
 
 # Evite de toucher a ce qui suit
 champion-dists += api.py interface.hh
