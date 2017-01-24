@@ -369,14 +369,14 @@ static PyObject* p_nose_squares_taken(PyObject* self, PyObject* args) {
 }
 
 /// Affiche le contenu d'une valeur de type mur_position
-static PyObject* p_print_mur_position(PyObject* self, PyObject* args) {
+static PyObject* p_afficher_mur_position(PyObject* self, PyObject* args) {
   (void)self;
   PyObject* a0;
   if (!PyArg_ParseTuple(args, "O", &a0)) {
     return NULL;
   }
   try {
-    api_print_mur_position(lang2cxx<PyObject*, mur_position>(a0));
+    api_afficher_mur_position(lang2cxx<PyObject*, mur_position>(a0));
     Py_INCREF(Py_None);
     return Py_None;
   } catch (...) {
@@ -385,14 +385,14 @@ static PyObject* p_print_mur_position(PyObject* self, PyObject* args) {
 }
 
 /// Affiche le contenu d'une valeur de type mur_role
-static PyObject* p_print_mur_role(PyObject* self, PyObject* args) {
+static PyObject* p_afficher_mur_role(PyObject* self, PyObject* args) {
   (void)self;
   PyObject* a0;
   if (!PyArg_ParseTuple(args, "O", &a0)) {
     return NULL;
   }
   try {
-    api_print_mur_role(lang2cxx<PyObject*, mur_role>(a0));
+    api_afficher_mur_role(lang2cxx<PyObject*, mur_role>(a0));
     Py_INCREF(Py_None);
     return Py_None;
   } catch (...) {
@@ -401,14 +401,14 @@ static PyObject* p_print_mur_role(PyObject* self, PyObject* args) {
 }
 
 /// Affiche le contenu d'une valeur de type action_error
-static PyObject* p_print_action_error(PyObject* self, PyObject* args) {
+static PyObject* p_afficher_action_error(PyObject* self, PyObject* args) {
   (void)self;
   PyObject* a0;
   if (!PyArg_ParseTuple(args, "O", &a0)) {
     return NULL;
   }
   try {
-    api_print_action_error(lang2cxx<PyObject*, action_error>(a0));
+    api_afficher_action_error(lang2cxx<PyObject*, action_error>(a0));
     Py_INCREF(Py_None);
     return Py_None;
   } catch (...) {
@@ -417,14 +417,14 @@ static PyObject* p_print_action_error(PyObject* self, PyObject* args) {
 }
 
 /// Affiche le contenu d'une valeur de type nose_position
-static PyObject* p_print_nose_position(PyObject* self, PyObject* args) {
+static PyObject* p_afficher_nose_position(PyObject* self, PyObject* args) {
   (void)self;
   PyObject* a0;
   if (!PyArg_ParseTuple(args, "O", &a0)) {
     return NULL;
   }
   try {
-    api_print_nose_position(lang2cxx<PyObject*, nose_position>(a0));
+    api_afficher_nose_position(lang2cxx<PyObject*, nose_position>(a0));
     Py_INCREF(Py_None);
     return Py_None;
   } catch (...) {
@@ -457,14 +457,14 @@ static PyMethodDef api_callback[] = {
      "nose_squares_to_take"},
     {"nose_squares_taken", p_nose_squares_taken, METH_VARARGS,
      "nose_squares_taken"},
-    {"print_mur_position", p_print_mur_position, METH_VARARGS,
-     "print_mur_position"},
-    {"print_mur_role", p_print_mur_role, METH_VARARGS,
-     "print_mur_role"},
-    {"print_action_error", p_print_action_error, METH_VARARGS,
-     "print_action_error"},
-    {"print_nose_position", p_print_nose_position, METH_VARARGS,
-     "print_nose_position"},
+    {"afficher_mur_position", p_afficher_mur_position, METH_VARARGS,
+     "afficher_mur_position"},
+    {"afficher_mur_role", p_afficher_mur_role, METH_VARARGS,
+     "afficher_mur_role"},
+    {"afficher_action_error", p_afficher_action_error, METH_VARARGS,
+     "afficher_action_error"},
+    {"afficher_nose_position", p_afficher_nose_position, METH_VARARGS,
+     "afficher_nose_position"},
     {NULL, NULL, 0, NULL}};
 
 PyMODINIT_FUNC PyInit__api() {

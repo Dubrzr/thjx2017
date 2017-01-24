@@ -8,7 +8,7 @@ from random import randint
 
 # Function called at the start of the game. You can use it to initialize your data structures.
 def game_init():
-    print_mur_role(mur_role_of_player(me()))
+    afficher_mur_role(mur_role_of_player(me()))
     pass
 
 # Function called during a phase (MUR turn). If you never call the ``play_mur`` function, you will defend or attack a random position with a random portion of your remaining stock.
@@ -31,11 +31,9 @@ def nose_turn():
         for x in reversed(range(NOSE_XMAX)):
             if nose_squares_taken(x, y) >= nose_squares_to_take():
                 play_nose(x, y)
-                return
-    pass
+    play_nose(0, 0)
 
 # Function called at the end of the game. You can use it to free your data structures.
 def game_end():
     print(mur_stock(me()))
     pass
-
