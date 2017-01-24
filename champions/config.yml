@@ -1,0 +1,6 @@
+rules: libthjx2017.so
+verbose: 5
+clients:
+    - ./py_offensive/champion.so
+    - ./py_random/champion.so
+dump: dump.json
