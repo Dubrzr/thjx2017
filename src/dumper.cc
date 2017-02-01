@@ -80,4 +80,5 @@ void dump_game_state(std::ostream& out, const GameState& st) {
   dump_players(out, st);
 
   out << "}\n";
+  out.flush();
 }

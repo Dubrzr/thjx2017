@@ -1,6 +1,5 @@
 #include "../api.hh"
 #include "../constant.hh"
-
 #include "test-helpers.hh"
 
 TEST_F(ApiTest, Api_RetrievePlayerIdentifiers) {
@@ -26,4 +25,19 @@ TEST_F(ApiTest, Api_MUR_ComputeStockLoss) {
   stock_loss = players[0].api->mur_compute_stock_loss(POS_N, POS_O, 42, 57);
   EXPECT_EQ(stock_loss.attacker, 57);
   EXPECT_EQ(stock_loss.defender, 42);
+}
+
+TEST_F(ApiTest, Api_Actions_leak) {
+  for (size_t i = 0; i < 10000; ++i) {
+    players[0].api->play_mur(POS_O, 1);
+    players[1].api->play_mur(POS_O, 1);
+
+    rules::Actions *a = players[0].api->actions();
+    a->clear();
+
+    rules::Actions *a2 = players[1].api->actions();
+    a2->clear();
+
+    st->resolve_mur();
+  }
 }

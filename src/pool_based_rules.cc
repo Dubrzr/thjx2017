@@ -50,6 +50,7 @@ void PoolBasedRules::server_loop(ServerMessenger_sptr msgr) {
 
       apply_actions(actions, true);
       msgr->push_actions(*actions);
+      actions->clear();
 
       end_of_player_turn(p->id);
       end_of_turn(p->id);
@@ -85,6 +86,7 @@ void PoolBasedRules::player_loop(ClientMessenger_sptr msgr) {
     bool me = !msgr->wait_for_turn(opt_.player->id, &playing_id);
     Actions* actions = run_player(msgr, playing_id, me);
     apply_actions(actions, !me);
+    actions->clear();
 
     end_of_player_turn(playing_id);
     end_of_turn(playing_id);

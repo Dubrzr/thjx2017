@@ -47,6 +47,7 @@ TEST_F(ActionTest, ActionNOSE_negative_position) {
 
 // Test invalid player
 TEST_F(ActionTest, ActionNOSE_invalid_player) {
+  get_game_phase() = NOSE;
   get_nose_player() = PLAYER_2;
   ActionPlayNose action(1, 1, PLAYER_1);
 

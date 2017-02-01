@@ -12,6 +12,8 @@ GameState::GameState(rules::Players_sptr players)
     : rules::GameState(), players_(players), nose_player_(0),
       nose_squares_to_take_(0), is_finished_(false) {
 
+  current_played_game_ = MUR;
+
   for (size_t i = 0; i < grid_.size(); ++i)
     std::fill(grid_[i].begin(), grid_[i].end(), true);
 
