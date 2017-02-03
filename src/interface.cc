@@ -330,3 +330,19 @@ std::ostream& operator<<(std::ostream& os, nose_position v) {
 extern "C" void api_afficher_nose_position(nose_position v) {
   std::cerr << v << std::endl;
 }
+
+/// Affiche le contenu d'une valeur de type mur_losses
+std::ostream& operator<<(std::ostream& os, mur_losses v)
+{
+  os << "{ ";
+  os << "attacker" << "=" << v.attacker;
+  os << ", ";
+  os << "defender" << "=" << v.defender;
+  os << " }";
+  return os;
+}
+extern "C" void api_afficher_mur_losses(mur_losses v)
+{
+  std::cerr << v << std::endl;
+}
+
