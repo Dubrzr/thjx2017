@@ -7,7 +7,7 @@ int ActionPlayMur::check(const GameState* st) const {
   if (st->get_mur_used_stock(player_id_) > 0)
     return ALREADY_CALLED;
 
-  if (amount_ < 0)
+  if (amount_ <= 0)
     return INVALID_ARGUMENT;
 
   if (position_ == POS_INVALID)
