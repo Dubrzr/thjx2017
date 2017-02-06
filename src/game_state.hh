@@ -19,6 +19,7 @@ using nose_grid = std::array<std::array<bool, NOSE_XMAX>, NOSE_YMAX>;
 enum played_game {
   MUR,
   NOSE,
+  END,
 };
 
 struct player_info {

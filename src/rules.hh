@@ -17,6 +17,7 @@
 
 typedef void (*f_champ_game_init)();
 typedef void (*f_champ_play_mur)();
+typedef void (*f_champ_mur_end)();
 typedef void (*f_champ_play_nose)();
 typedef void (*f_champ_game_end)();
 
@@ -46,6 +47,7 @@ protected:
 
   f_champ_game_init champ_game_init_;
   f_champ_play_mur champ_play_mur_;
+  f_champ_mur_end champ_mur_end_;
   f_champ_play_nose champ_play_nose_;
   f_champ_game_end champ_game_end_;
 

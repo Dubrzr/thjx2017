@@ -11,6 +11,7 @@ Rules::Rules(const rules::Options opt)
 
     champ_game_init_ = champ_dll_->get<f_champ_game_init>("game_init");
     champ_play_mur_ = champ_dll_->get<f_champ_play_mur>("mur_turn");
+    champ_mur_end_ = champ_dll_->get<f_champ_play_mur>("mur_end");
     champ_play_nose_ = champ_dll_->get<f_champ_play_nose>("nose_turn");
     champ_game_end_ = champ_dll_->get<f_champ_game_end>("game_end");
   }
@@ -95,6 +96,9 @@ void Rules::player_turn() {
   case NOSE:
     sandbox_.execute(champ_play_nose_);
     break;
+case END:
+exit(22);
+break;
   }
 }
 
@@ -117,6 +121,14 @@ void Rules::end_of_round() {
     if (looser == -1)
       return;
 
+    // player should NOT be able to play any move
+    // thus every action MUST first check the current game
+    state->set_current_played_game(END);
+
+    if (opt_.player)
+      sandbox_.execute(champ_mur_end_);
+
+    PDEBUG_GAME("Called Player MUR_END");
     state->set_current_played_game(NOSE);
     break;
   }
@@ -129,6 +141,9 @@ void Rules::end_of_round() {
     state->set_current_played_game(MUR);
     state->init_mur();
     break;
+case END:
+exit(22);
+break;
   }
 
   PDEBUG_GAME("Resolved");

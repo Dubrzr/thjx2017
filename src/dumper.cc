@@ -72,6 +72,9 @@ void dump_game_state(std::ostream& out, const GameState& st) {
   case MUR:
     out << "\"MUR\"";
     break;
+  case END:
+    exit(22);
+    break;
   }
   out << ", ";
 
