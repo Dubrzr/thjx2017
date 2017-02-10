@@ -10,7 +10,7 @@ int ActionPlayMur::check(const GameState* st) const {
   if (amount_ <= 0)
     return INVALID_ARGUMENT;
 
-  if (position_ == POS_INVALID)
+  if (position_ >= POS_INVALID || position_ < 0)
     return INVALID_ARGUMENT;
 
   if (amount_ > st->get_mur_stock(player_id_))
