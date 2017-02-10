@@ -69,9 +69,10 @@ int Api::mur_stock(int player) { return game_state()->get_mur_stock(player); }
 
 /// Amount of stock lost considering both players' moves.
 mur_losses Api::mur_compute_stock_loss(mur_position attacker,
-                                mur_position defender, int atk_amount,
-                                int dfd_amount) {
-  auto losses = mur_compute_stock_loss_(attacker, defender, atk_amount, dfd_amount);
+                                       mur_position defender, int atk_amount,
+                                       int dfd_amount) {
+  auto losses =
+      mur_compute_stock_loss_(attacker, defender, atk_amount, dfd_amount);
 
   return {losses.first, losses.second};
 }

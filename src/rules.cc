@@ -96,9 +96,9 @@ void Rules::player_turn() {
   case NOSE:
     sandbox_.execute(champ_play_nose_);
     break;
-case END:
-exit(22);
-break;
+  case END:
+    exit(22);
+    break;
   }
 }
 
@@ -121,6 +121,10 @@ void Rules::end_of_round() {
     if (looser == -1)
       return;
 
+    // State should be resolved before calling the player fun
+    state->set_mur_role(looser, DEFENDER);
+    state->set_mur_role(state->opponent(looser), ATTACKER);
+
     // player should NOT be able to play any move
     // thus every action MUST first check the current game
     state->set_current_played_game(END);
@@ -141,9 +145,9 @@ void Rules::end_of_round() {
     state->set_current_played_game(MUR);
     state->init_mur();
     break;
-case END:
-exit(22);
-break;
+  case END:
+    exit(22);
+    break;
   }
 
   PDEBUG_GAME("Resolved");

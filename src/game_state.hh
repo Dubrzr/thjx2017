@@ -80,6 +80,10 @@ public:
     return player_info_.at(player).mur_current_role;
   }
 
+  void set_mur_role(unsigned player, mur_role r) {
+    player_info_.at(player).mur_current_role = r;
+  }
+
   int get_mur_used_stock(unsigned player) const {
     return player_info_.at(player).mur_used_stock;
   }

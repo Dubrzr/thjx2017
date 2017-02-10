@@ -157,7 +157,7 @@ std::string convert_to_string(std::vector<nose_position> in) {
   }
 }
 
-std::string convert_to_string(mur_losses in){
+std::string convert_to_string(mur_losses in) {
   std::string defender = convert_to_string(in.defender);
   std::string attacker = convert_to_string(in.attacker);
   std::string out = "{";
@@ -167,14 +167,14 @@ std::string convert_to_string(mur_losses in){
   return out + "}";
 }
 
-std::string convert_to_string(std::vector<mur_losses> in){
-  if (in.size()){
+std::string convert_to_string(std::vector<mur_losses> in) {
+  if (in.size()) {
     std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
+    for (int i = 1, l = in.size(); i < l; i++) {
       s = s + ", " + convert_to_string(in[i]);
     }
     return s + "]";
-  }else{
+  } else {
     return "[]";
   }
 }
@@ -207,8 +207,9 @@ extern "C" int api_mur_stock(int player) { return api->mur_stock(player); }
 
 /// Amount of stock lost considering both players' moves.
 extern "C" mur_losses api_mur_compute_stock_loss(mur_position attacker,
-                                          mur_position defender,
-                                          int atk_amount, int dfd_amount) {
+                                                 mur_position defender,
+                                                 int atk_amount,
+                                                 int dfd_amount) {
   return api->mur_compute_stock_loss(attacker, defender, atk_amount,
                                      dfd_amount);
 }
@@ -332,17 +333,16 @@ extern "C" void api_afficher_nose_position(nose_position v) {
 }
 
 /// Affiche le contenu d'une valeur de type mur_losses
-std::ostream& operator<<(std::ostream& os, mur_losses v)
-{
+std::ostream& operator<<(std::ostream& os, mur_losses v) {
   os << "{ ";
-  os << "attacker" << "=" << v.attacker;
+  os << "attacker"
+     << "=" << v.attacker;
   os << ", ";
-  os << "defender" << "=" << v.defender;
+  os << "defender"
+     << "=" << v.defender;
   os << " }";
   return os;
 }
-extern "C" void api_afficher_mur_losses(mur_losses v)
-{
+extern "C" void api_afficher_mur_losses(mur_losses v) {
   std::cerr << v << std::endl;
 }
-
