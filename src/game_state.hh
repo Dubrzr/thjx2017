@@ -126,6 +126,28 @@ public:
     player_info_.at(player).nose_played_square = pos;
   }
 
+  unsigned get_attacker_id() const {
+    if(player_info_.at(p_[0]).mur_current_role == ATTACKER)
+      return p_[0];
+    else
+      return p_[1];
+  }
+
+  unsigned get_defender_id() const {
+    if(player_info_.at(p_[0]).mur_current_role == DEFENDER)
+      return p_[0];
+    else
+      return p_[1];
+  }
+
+  player_info &get_attacker() {
+    return player_info_.at(get_attacker_id());
+  }
+
+  player_info &get_defender() {
+    return player_info_.at(get_defender_id());
+  }
+
   unsigned get_nose_player_id() const { return nose_player_; }
 
   int get_nose_squares_to_take() const { return nose_squares_to_take_; }
