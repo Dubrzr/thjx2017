@@ -32,8 +32,8 @@ GameState::GameState(rules::Players_sptr players)
 
   std::sort(p_.begin(), p_.end());
 
-  player_info_[p_[ATTACKER]].mur_current_role = ATTACKER;
-  player_info_[p_[DEFENDER]].mur_current_role = DEFENDER;
+  player_info_[p_[0]].mur_current_role = ATTACKER;
+  player_info_[p_[1]].mur_current_role = DEFENDER;
 }
 
 rules::GameState* GameState::copy() const { return new GameState(*this); }
@@ -58,8 +58,8 @@ void GameState::init_mur_turn() {
 }
 
 int GameState::get_mur_loser() {
-  auto at = player_info_.at(p_[ATTACKER]);
-  auto df = player_info_.at(p_[DEFENDER]);
+  auto at = get_attacker();
+  auto df = get_defender();
 
   auto at_mur = at.mur_stock;
   auto df_mur = df.mur_stock;
@@ -68,17 +68,17 @@ int GameState::get_mur_loser() {
     return -1;
 
   if (at_mur <= 0)
-    return p_[ATTACKER];
+    return get_attacker_id();
 
   if (df_mur <= 0)
-    return p_[DEFENDER];
+    return get_defender_id();
 
   return -1;
 }
 
 int GameState::resolve_mur() {
-  auto& at = player_info_.at(p_[ATTACKER]); // get attacker
-  auto& df = player_info_.at(p_[DEFENDER]); // get defender
+  auto& at = get_attacker();
+  auto& df = get_defender();
 
   // compute losses
   int at_loss, df_loss;
