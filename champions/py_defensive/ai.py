@@ -72,20 +72,20 @@ def mur_end():
     opponent_def_stats.update_stats(op_last_played_pos)
 
 def nose_turn():
-  last_played = nose_last_played_square()
+  x, y = nose_last_played_square()
 
   if nose_remaining_squares() == 1:
     play_nose(2, 0)
   else:
-    if last_played.x == 0:
-      play_nose(last_played.x, last_played.y - 1)
+    if x == 0:
+      play_nose(x, y - 1)
     elif (
-      nose_squares_taken(last_played.x - 1, last_played.y) <
-      nose_squares_taken(last_played.x, last_played.y - 1)
+      nose_squares_taken(x - 1, y) <
+      nose_squares_taken(x, y - 1)
     ):
-      play_nose(last_played.x - 1, last_played.y)
+      play_nose(x - 1, y)
     else:
-      play_nose(last_played.x, last_played.y - 1)
+      play_nose(x, y - 1)
 
 def game_end():
   pass
